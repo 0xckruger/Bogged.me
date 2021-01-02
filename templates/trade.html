@@ -1,0 +1,19 @@
+{% include 'header.html' %}
+
+<h1>Paper trading platform</h1>
+<h3>Hello, {{user}}</h3>
+<h3>Your cash balance is: ${{balance}}</h3>
+<h3>Your total balance is: ${{balance_total|round(2)}}</h3>
+<h4>Your profit is: {{(percent_profit * 100 - 100)|round(2)}}%</h4>
+<h4>Your wallet contains:</h4>
+<ul>
+	{% for k, v in wallet.items() %}
+	<dt>{{k}} : {{v}} </dt>
+	{% endfor %}
+</ul>
+
+{% include 'buy.html' %}
+
+{% include 'sell.html' %}
+
+{% include 'footer.html' %}
