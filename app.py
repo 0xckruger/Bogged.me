@@ -34,7 +34,7 @@ def display_price():
     convert_currency = request.args.get('convert_currency', '')
     coin_id = coin_id.lower()
     convert_currency = convert_currency.lower()
-    if td.check_coin(coin_id) == False:
+    if not td.check_coin(coin_id):
         flash("PRICE CHECK FAILED - UNKNOWN COIN", "warning")
         return redirect(url_for("find_price"))
     elif convert_currency not in cg.get_supported_vs_currencies():
@@ -53,6 +53,8 @@ def register():
         session.permanent = True
         user = request.form["nm"]
         email = request.form["email"]
+        if email == '':
+            email = "none@none"
         currency = request.form["currency"]
         starting_balance = request.form["starting_balance"]
         password = request.form["pw"]
@@ -63,7 +65,7 @@ def register():
             flash("Registration successful", "success")
             return redirect(url_for("login"))
         else:
-            flash(f"Error when registering: {flag}," "warning")
+            flash(f"Error when registering: {flag}", "warning")
             return render_template("register.html")
     else:
         if "user" in session:
@@ -78,10 +80,12 @@ def login():
         user = request.form["nm"]
         password = request.form["pw"]
         user_data = udb.get_user(user, password)
-        if user_data == False:
+        if not user_data:
             flash("Log in error", "danger")
             return redirect(url_for("login"))
         session["balance"] = user_data.get("balance")
+        session["starting_balance"] = user_data.get("starting_balance")
+        session["currency"] = user_data.get("currency")
         session["wallet"] = user_data.get("wallet")
         session["user"] = user_data.get("name")
         flash("Logged in", "success")
@@ -96,8 +100,8 @@ def login():
 def trade():
     if "user" in session:
         user = session["user"]
-        print("balance: ", db.get(user).get("balance"))
-        print("wallet : ", db.get(user).get("wallet"))
+        #print("balance: ", db.get(user).get("balance"))
+        #print("wallet : ", db.get(user).get("wallet"))
         balance = db.get(user).get("balance")
         wallet = db.get(user).get("wallet")
         balance_total = td.calculate_profit(user)[0]
@@ -114,7 +118,7 @@ def trade():
 def logout():
     try:
         user = session["user"]
-        session.pop("user", None)
+        session.pop(user, None)
         flash("Logged out", "success")
         return redirect(url_for("index"))
     except:
@@ -125,13 +129,14 @@ def logout():
 @app.route("/buy")
 def buy():
     # balance = float(session["balance"])
+    user = session["user"]
     coin_id = request.args.get('coin_id', '')
     coin_amount = float(request.args.get('coin_amount', ''))
-    currency = request.args.get('currency', '')
+    currency = db.get(user).get("currency")
     coin_id = coin_id.lower()
     currency = currency.lower()
 
-    if td.check_coin(coin_id) == False:
+    if not td.check_coin(coin_id):
         flash("TRADE FAILED - UNKNOWN COIN", "danger")
         return redirect(url_for("trade"))
     elif currency not in cg.get_supported_vs_currencies():
@@ -158,12 +163,13 @@ def buy():
 @app.route("/sell")
 def sell():
     # balance = float(session["balance"])
+    user = session["user"]
     coin_id = request.args.get('coin_id', '')
     coin_amount = float(request.args.get('coin_amount', ''))
-    currency = request.args.get('currency', '')
+    currency = db.get(user).get("currency")
     coin_id = coin_id.lower()
     currency = currency.lower()
-    if td.check_coin(coin_id) == False:
+    if not td.check_coin(coin_id):
         flash("TRADE FAILED - UNKNOWN COIN", "danger")
         return redirect(url_for("trade"))
     elif currency not in cg.get_supported_vs_currencies():
@@ -187,4 +193,4 @@ def sell():
         return redirect(url_for("trade"))
 
 
-app.run('0.0.0.0', 8080, debug=True)
+app.run('127.0.0.1', 8080, debug=True)

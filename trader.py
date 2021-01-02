@@ -60,15 +60,17 @@ def sell(user, purchase, coin_amount, coin_id):
 
 def calculate_profit(user):
     balance = db.get(user).get("balance")
+    currency = db.get(user).get("currency")
+    starting_balance = db.get(user).get("starting_balance")
     wallet = db.get(user).get("wallet")
     coin_balance = 0
     for coin in wallet:
         temp_coin_balance = wallet[coin]
-        temp_coin_balance *= cg.get_price(ids=coin, vs_currencies='usd').get(coin).get('usd')
+        temp_coin_balance *= cg.get_price(ids=coin, vs_currencies=currency).get(coin).get(currency)
         #print(temp_coin_balance)
         coin_balance += temp_coin_balance
     balance += coin_balance
-    percent_profit = balance / 100000
+    percent_profit = balance / starting_balance
     return [balance, percent_profit]
 
 

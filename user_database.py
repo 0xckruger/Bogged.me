@@ -27,20 +27,20 @@ def add_user(name, email, password, confirmed_password, user_currency, balance):
         }
         user_info = {
             "name": name,
-            "email" : email,
+            "email": email,
             "password": password,
             "currency": user_currency.lower(),
             "wallet": wallet,
+            "starting_balance": int(balance),
             "balance": int(balance),
-            "date_joined": 1
+            "date_joined": regtime
         }
-        print(now.strftime("%m/%d/%Y, %H:%M:%S"))
+        # print(now.strftime("%m/%d/%Y, %H:%M:%S"))
         db.set(name, user_info)
         return "OK"
 
 
 def get_user(name, given_password):
-
     if not db.exists(name):
         print("This user does not exist.")
         return False
