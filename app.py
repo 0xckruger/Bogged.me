@@ -117,8 +117,9 @@ def trade():
 @app.route("/logout")
 def logout():
     try:
+        #print(session["user"])
         user = session["user"]
-        session.pop(user, None)
+        session.pop("user", None)
         flash("Logged out", "success")
         return redirect(url_for("index"))
     except:
