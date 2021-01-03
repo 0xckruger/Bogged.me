@@ -2,7 +2,6 @@ aiohttp==3.6.2
 aiohttp-socks==0.4.2
 aiorpcX==0.18.4
 apipkg==1.5
-apparmor==3.0.0
 appdirs==1.4.4
 apsw==3.33.0.post1
 arandr==0.1.10
