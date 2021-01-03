@@ -4,6 +4,7 @@ from datetime import timedelta
 import user_database as udb
 import trader as td
 from user_database import db
+
 cg = CoinGeckoAPI()
 
 app = Flask(__name__)
@@ -11,6 +12,8 @@ app.secret_key = "ShhhDon'tTellANYONE"
 app.permanent_session_lifetime = timedelta(minutes=15)
 
 
+@app.route('/index')
+@app.route('/home')
 @app.route('/')
 def index():
     title = "home"
@@ -23,15 +26,15 @@ def about():
     return render_template("about.html", title=title)
 
 
-@app.route('/findprice')
+@app.route('/trade/findprice')
 def find_price():
     return render_template("findprice.html")
 
 
-@app.route('/displayprice')
+@app.route('/trade/displayprice/')
 def display_price():
     coin_id = request.args.get('coin_id', '')
-    convert_currency = request.args.get('convert_currency', '')
+    convert_currency = request.args.get('currency', '')
     coin_id = coin_id.lower()
     convert_currency = convert_currency.lower()
     if not td.check_coin(coin_id):
@@ -44,7 +47,8 @@ def display_price():
         price = td.get_price(coin_id, convert_currency)
         msg = "The current price for ", coin_id.capitalize(), "is ", str(price), "in ", convert_currency.upper()
         msg = ' '.join(str(i) for i in msg)
-        return render_template("displayprice.html", msg=msg)
+        flash(msg, "success")
+        return redirect(url_for("trade"))
 
 
 @app.route("/register", methods=["POST", "GET"])
@@ -100,8 +104,8 @@ def login():
 def trade():
     if "user" in session:
         user = session["user"]
-        #print("balance: ", db.get(user).get("balance"))
-        #print("wallet : ", db.get(user).get("wallet"))
+        # print("balance: ", db.get(user).get("balance"))
+        # print("wallet : ", db.get(user).get("wallet"))
         balance = db.get(user).get("balance")
         wallet = db.get(user).get("wallet")
         balance_total = td.calculate_profit(user)[0]
@@ -117,7 +121,7 @@ def trade():
 @app.route("/logout")
 def logout():
     try:
-        #print(session["user"])
+        # print(session["user"])
         user = session["user"]
         session.pop("user", None)
         flash("Logged out", "success")

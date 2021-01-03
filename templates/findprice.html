@@ -1,6 +1,32 @@
 <h4><b>Find</b> coin price</h4>
-         <form action="/displayprice">
+         <form action="/trade/displayprice">
              What's the coin name? (e.g. Bitcoin) <input type='text' name='coin_id'><br>
-             What's the conversion currency? (e.g. USD) <input type='text' name='convert_currency'><br>
+             What's the conversion currency? (e.g. USD) <input list="currencies" name="currency"/> </label>
+    <datalist id="currencies">
+        <option value = "USD">
+        <option value = "EUR">
+        <option value = "GBP">
+        <option value = "CAD">
+        <option value = "CNY">
+        <option value = "JPY">
+        <option value = "KRW">
+        <option value = "INR">
+        <option value = "ARS">
+        <option value = "AUD">
+        <option value = "BRL">
+        <option value = "NZD">
+        <option value = "RUB">
+        <option value = "KWD">
+        <option value = "SEK">
+        <option value = "TWD">
+        <option value = "ZAR">
+        <option value = "NOK">
+        <option value = "CHF">
+        <option value = "CLP">
+        <option value = "HKD">
+        <option value = "CZK">
+        <option value = "DKK">
+    </datalist>
+             <p></p>
              <input type='submit' value='Continue'>
          </form>
