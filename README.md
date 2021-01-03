@@ -16,9 +16,9 @@ Don't get BOGGED in the process!
    ```
 2. Install PIP dependencies
    ```sh
-   npm install
+   pip install -r requirements.txt
    ```
 3. Run program on local host
-   ```JS
-   const API_KEY = 'ENTER YOUR API';
+   ```sh
+   python app.py
    ```
