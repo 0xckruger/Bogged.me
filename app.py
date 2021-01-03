@@ -4,6 +4,10 @@ from datetime import timedelta
 import user_database as udb
 import trader as td
 from user_database import db
+try:
+    import urllib.request as urllib2
+except ImportError:
+    import urllib2
 
 cg = CoinGeckoAPI()
 
