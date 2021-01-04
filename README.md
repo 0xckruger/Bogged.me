@@ -11,7 +11,7 @@ Flask, CoinGeckoAPI
 
 # Prerequisites
 
-#Installation
+## Installation
 1. Clone the repo
    ```sh
    git clone https://github.com/ckruger097/Bogged.me.git
