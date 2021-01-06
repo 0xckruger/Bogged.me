@@ -1,6 +1,6 @@
 import pickledb as pdb
 from datetime import datetime
-import currency
+#import currency
 
 db = pdb.load('bogged_user_database.db', True)
 accepted_currencies = ['usd', 'ars', 'aud', 'cad', 'chf', 'clp', 'cny', 'czk', 'dkk', 'eur', 'gbp', 'hkd', 'inr',
