@@ -43,10 +43,10 @@ def display_price():
     convert_currency = convert_currency.lower()
     if not td.check_coin(coin_id):
         flash("PRICE CHECK FAILED - UNKNOWN COIN", "warning")
-        return redirect(url_for("find_price"))
+        return redirect(url_for("trade"))
     elif convert_currency not in cg.get_supported_vs_currencies():
         flash("PRICE CHECK FAILED - UNKNOWN CURRENCY", "warning")
-        return redirect(url_for("find_price"))
+        return redirect(url_for("trade"))
     else:
         price = td.get_price(coin_id, convert_currency)
         msg = "The current price for ", coin_id.capitalize(), "is ", str(price), "in ", convert_currency.upper()
