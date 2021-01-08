@@ -50,3 +50,8 @@ def get_user(name, given_password):
             return False
         else:
             return db.get(name)
+
+def get_all_users():
+    all_user_keys = db.getall()
+    return all_user_keys
+    
