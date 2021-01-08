@@ -3,13 +3,15 @@ Paper trading platform for cryptocurrency.
 Compete with users on the leaderboard to show who can pull off the most 200IQ trades.
 Don't get BOGGED in the process!
 
-#Introduction
+# Introduction
+Created during George Mason University's PatrickHacks 2021.
 
-#Built With
+# Built With
+Flask, CoinGeckoAPI
 
-#Prerequisites
+# Prerequisites
 
-#Installation
+## Installation
 1. Clone the repo
    ```sh
    git clone https://github.com/ckruger097/Bogged.me.git
