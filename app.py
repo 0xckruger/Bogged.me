@@ -132,7 +132,8 @@ def leaderboard():
     for user in users:
         user_name = db.get(user).get("name")
         date_joined = db.get(user).get("date_joined")
-        percent_profit = round(td.calculate_profit(user)[1], 2)
+        percent_profit = td.calculate_profit(user)[1] # [balance, percent_profit]
+        percent_profit = round(percent_profit * 100 - 100, 2)
         
         user_info = {
             "percent_profit": percent_profit,

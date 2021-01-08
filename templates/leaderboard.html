@@ -28,11 +28,11 @@
             </tr>
         </thead>
         <tbody>
-            {% for k, v in leaderboard.items() %}
+            {% for username, user_info in leaderboard.items() %}
             <tr>
-                <td>{{k}}</td>
-                <td>{{v["date_joined"]}}</td>
-                <td>{{v["percent_profit"]}}%</td>
+                <td>{{username}}</td>
+                <td>{{user_info["date_joined"]}}</td>
+                <td>{{user_info["percent_profit"]}}%</td>
             </tr>
             {% endfor %}
         </tbody>
