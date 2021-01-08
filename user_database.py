@@ -1,6 +1,6 @@
 import pickledb as pdb
 from datetime import datetime
-import currency
+#import currency
 
 db = pdb.load('bogged_user_database.db', True)
 accepted_currencies = ['usd', 'ars', 'aud', 'cad', 'chf', 'clp', 'cny', 'czk', 'dkk', 'eur', 'gbp', 'hkd', 'inr',
@@ -50,3 +50,8 @@ def get_user(name, given_password):
             return False
         else:
             return db.get(name)
+
+def get_all_users():
+    all_user_keys = db.getall()
+    return all_user_keys
+    

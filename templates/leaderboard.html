@@ -1,0 +1,44 @@
+<link rel= "stylesheet" type= "text/css" href= "/Bogged.me/static/stylesheet.css">
+{% include 'header.html' %}
+
+<style>
+    table{
+        border-collapse: collapse;
+    }
+    th, td{
+        border: 1px solid #999;
+        padding: 0.5rem;
+        text-align: left;
+    }
+    
+    #leaderboard{
+        padding-left: 2em;
+
+    }
+</style>
+<br>
+<section id="leaderboard">
+    <h3>Leaderboard</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Date Joined</th>
+                <th>Percent Profit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for k, v in leaderboard.items() %}
+            <tr>
+                <td>{{k}}</td>
+                <td>{{v["date_joined"]}}</td>
+                <td>{{v["percent_profit"]}}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+</section>
+
+
+{% include 'footer.html' %}

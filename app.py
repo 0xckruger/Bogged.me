@@ -121,7 +121,34 @@ def trade():
     else:
         return redirect(url_for("login"))
 
+@app.route("/leaderboard")
+# Ranks all users by percent profit determined by their total investments in wallet.
+# O(N) run time, where N is the number of users in the database.
+def leaderboard():
+    users = udb.get_all_users()
+    leaderboard = {}
 
+    # Add users and their respective information to the leaderboard 
+    for user in users:
+        user_name = db.get(user).get("name")
+        date_joined = db.get(user).get("date_joined")
+        percent_profit = round(td.calculate_profit(user)[1], 2)
+        
+        user_info = {
+            "percent_profit": percent_profit,
+            "date_joined": date_joined
+        }
+        
+        leaderboard.update({user_name: user_info})
+    
+    # Rank the leaderboard in descending order
+    dict(sorted(leaderboard.items(), key=lambda item: item[0])) #item[0] accesses percent profit in user_info object
+   
+    # Render template to all site visitors, regardless of login status
+    return render_template(
+        "leaderboard.html", users = users, leaderboard = leaderboard
+    )
+    
 @app.route("/logout")
 def logout():
     try:
