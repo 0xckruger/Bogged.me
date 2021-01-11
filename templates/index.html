@@ -1,10 +1,105 @@
-{% include 'header.html' %}
+<!DOCTYPE html>
+<html>
 
-<div align="center">
-      
-    <h1>BOGGED.ME</h1>
-    <img src="https://i.ibb.co/26mJJ6j/Dg-PSG-z-Xc-AAX1-Z.jpg" alt="YES MASTER">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Home - Bogged.me</title>
+    <meta name="description" content="Trade cryptocurrency for fun and (make believe) profit!">
+    <link rel="icon" type="image/png" sizes="16x16" href="../static/assets/img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/assets/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../static/assets/img/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="../static/assets/img/android-chrome-512x512.png">
+    <link rel="stylesheet" href="../static/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aldrich">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bree+Serif">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Changa">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Geo">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sunflower:">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tauri">
+    {% include 'flashmsg.html' %}
 
-</div>
-  
-{% include 'footer.html' %}
+</head>
+
+<body>
+    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark navbar-custom" style="color: var(--gray-dark);background: var(--dark);border-color: var(--dark);">
+        <div class="container"><a class="navbar-brand border rounded border-dark shadow" href="#" style="font-size: 23px;background: url(../static/assets/img/logo.png) left / contain no-repeat, linear-gradient(black, rgb(229,16,37) 0%, var(--dark) 100%), var(--gray-dark);text-shadow: 0px 0px 4px;font-family: Aldrich, sans-serif;color: rgb(22,255,75);filter: brightness(99%);box-shadow: 0px 0px;border-style: none;border-bottom-style: dotted;height: 42px;padding: 7px;">&nbsp; &nbsp; &nbsp;Bogged.me</a><button data-toggle="collapse" data-target="#navbarResponsive-1" class="navbar-toggler"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive-1">
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" href="/about" style="font-family: Aldrich, sans-serif;">ABOUT</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/leaderboard" style="font-family: Aldrich, sans-serif;">LEADERBOARD</a></li>
+                    </ul>
+                </div>
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="/login" style="margin: 2px;font-family: Aldrich, sans-serif;">LOG IN & TRADE</a></li>
+                    <li class="nav-item"><a class="nav-link border rounded border-dark" href="/register" style="box-shadow: 0px 0px rgba(204,29,29,0.5);border-width: 6px;text-shadow: 0px 0px 0px var(--light);background: var(--blue);font-family: Aldrich, sans-serif;">REGISTER</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <header class="masthead text-center text-white">
+        <div class="masthead-content">
+            <div class="container">
+                <h1 class="masthead-heading mb-0" style="font-family: Aldrich, sans-serif;">Trade Cryptocurrency</h1>
+                <h2 class="masthead-subheading mb-0" style="font-family: Aldrich, sans-serif;">Without losing your&nbsp;<strong>👕</strong></h2><a class="btn btn-primary btn-xl rounded-pill mt-5" role="button" href="/register" style="font-family: Aldrich, sans-serif;font-size: 16px;">try paper trading</a>
+            </div>
+        </div>
+    </header>
+    <section>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 order-lg-2">
+                    <div class="p-5"><img class="rounded-circle img-fluid" src="../static/assets/img/pexels-karolina-grabowska-5980888.jpg"></div>
+                </div>
+                <div class="col-lg-6 order-lg-1">
+                    <div class="p-5">
+                        <h2 class="display-4" style="font-family: 'Bree Serif', serif;width: 449px;">Ever wanted to learn trading, but not ready to pony up real&nbsp;<strong>💵</strong>?</h2>
+                        <p>The cryptocurrency market is new and highly volatile. We get not wanting to jump in with your paycheck (or life savings) right away. That's why we created Bogged.me- to let you have fun trading cryptocurrency, without any of the risk!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 order-lg-1">
+                    <div class="p-5"><img class="rounded-circle img-fluid" src="../static/assets/img/pexels-edvin-richardson-796206.jpg" style="height: 337px;width: 434px;padding: -14px;margin: -6px;"></div>
+                </div>
+                <div class="col-lg-6 order-lg-2">
+                    <div class="p-5">
+                        <h2 class="display-4" style="font-family: 'Bree Serif', serif;">Compete against others for the biggest gains&nbsp;<strong>📈</strong></h2>
+                        <p style="width: 402px;">Our leaderboard system tracks profit across users to show who made the biggest IQ calls- and who got BOGGED. With &gt;6,000 different coins to choose from, which one will take you TO THE MOON?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 order-lg-2">
+                    <div class="p-5"><img class="rounded-circle img-fluid" src="../static/assets/img/call.jpg"></div>
+                </div>
+                <div class="col-lg-6 order-lg-1">
+                    <div class="p-5">
+                        <h2 class="display-4" style="width: 484px;margin: -1px;font-family: 'Bree Serif', serif;">Answer the call&nbsp;<strong>📳</strong></h2>
+                        <p>Whether you're an experienced HODLer or a coinless crypto-noob, you will be able to use our platform to hone your skills. BOGGED.me is free and open source; no real money involved! We track cryptocurrency prices in real time for the most accurate market rate. Register today and learn how to manage a winning cryptocurrency portfolio.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="py-5 bg-black">
+        <div class="container">
+            <p class="text-center text-white m-0 small" style="font-family: Aldrich, sans-serif;">Copyright&nbsp;© Bogged.me 2021</p>
+        </div>
+    </footer>
+    <script src="../static/assets/js/jquery.min.js"></script>
+    <script src="../static/assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
