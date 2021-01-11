@@ -132,7 +132,8 @@ def leaderboard():
     for user in users:
         user_name = db.get(user).get("name")
         date_joined = db.get(user).get("date_joined")
-        percent_profit = round(td.calculate_profit(user)[1], 2)
+        percent_profit = td.calculate_profit(user)[1] # [balance, percent_profit]
+        percent_profit = round(percent_profit * 100 - 100, 2)
         
         user_info = {
             "percent_profit": percent_profit,
@@ -162,7 +163,7 @@ def logout():
         return redirect(url_for("login"))
 
 
-@app.route("/buy")
+@app.route("/trade/buy")
 def buy():
     # balance = float(session["balance"])
     user = session["user"]
@@ -177,26 +178,22 @@ def buy():
         return redirect(url_for("trade"))
     elif currency not in cg.get_supported_vs_currencies():
         flash("PRICE CHECK FAILED - UNKNOWN CURRENCY", "danger")
-        return redirect(url_for("buy"))
+        return redirect(url_for("trade"))
 
     price = td.get_price(coin_id, currency)
     purchase = float(price) * coin_amount
 
     status = td.purchase(session["user"], purchase, coin_amount, coin_id)
     if status:
-        return render_template(
-            "executed_buy.html",
-            coin_id=coin_id.capitalize(),
-            coin_amount=coin_amount,
-            price=price,
-            purchase=round(purchase, 3))
+        flash(f"Your purchase of {coin_amount} {coin_id.capitalize()} @ {price} totalling {round(purchase, 3)} has completed successfully", "success")
+        return redirect(url_for("trade"))
     else:
         flash("TRADE FAILED - INSUFFICIENT FUNDS", "danger")
         print("Error")
         return redirect(url_for("trade"))
 
 
-@app.route("/sell")
+@app.route("/trade/sell")
 def sell():
     # balance = float(session["balance"])
     user = session["user"]
@@ -217,12 +214,8 @@ def sell():
 
     status = td.sell(session["user"], sold_price, coin_amount, coin_id)
     if status:
-        return render_template(
-            "executed_sell.html",
-            coin_id=coin_id.capitalize(),
-            price=price,
-            coin_amount=coin_amount,
-            sold_price=round(sold_price, 3))
+        flash(f"Your sale of {coin_amount} {coin_id.capitalize()} @ {price} totalling {round(sold_price, 3)} has completed successfully", "success")
+        return redirect(url_for("trade"))
     else:
         flash("TRADE FAILED - INSUFFICIENT COIN BALANCE", "danger")
         print("Error")
