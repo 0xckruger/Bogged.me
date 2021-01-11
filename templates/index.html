@@ -11,6 +11,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="../static/assets/img/android-chrome-192x192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="../static/assets/img/android-chrome-512x512.png">
     <link rel="stylesheet" href="../static/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/assets/bootstrap/css/custom.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aldrich">
@@ -19,13 +20,12 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Geo">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sunflower:">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tauri">
-    {% include 'flashmsg.html' %}
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 </head>
 
 <body>
     <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark navbar-custom" style="color: var(--gray-dark);background: var(--dark);border-color: var(--dark);">
-        <div class="container"><a class="navbar-brand border rounded border-dark shadow" href="#" style="font-size: 23px;background: url(../static/assets/img/logo.png) left / contain no-repeat, linear-gradient(black, rgb(229,16,37) 0%, var(--dark) 100%), var(--gray-dark);text-shadow: 0px 0px 4px;font-family: Aldrich, sans-serif;color: rgb(22,255,75);filter: brightness(99%);box-shadow: 0px 0px;border-style: none;border-bottom-style: dotted;height: 42px;padding: 7px;">&nbsp; &nbsp; &nbsp;Bogged.me</a><button data-toggle="collapse" data-target="#navbarResponsive-1" class="navbar-toggler"><span class="navbar-toggler-icon"></span></button>
+        <div class="container"><a class="navbar-brand" href="#" style="font-size: 23px;background: url(../static/assets/img/logo.png) left / contain no-repeat, var(--gray-dark);font-family: Aldrich, sans-serif;color: rgb(214,62,132);filter: brightness(99%);height: 42px;padding: 7px;text-shadow: 0px 0px 4px;border-width: 3.994898px;border-style: none;border-bottom-style: none;">&nbsp; &nbsp; &nbsp;Bogged.me</a><button data-toggle="collapse" data-target="#navbarResponsive-1" class="navbar-toggler"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive-1">
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="nav navbar-nav ml-auto">
@@ -34,7 +34,7 @@
                     </ul>
                 </div>
                 <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" href="/login" style="margin: 2px;font-family: Aldrich, sans-serif;">LOG IN & TRADE</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/login" style="margin: 2px;font-family: Aldrich, sans-serif;">LOG IN</a></li>
                     <li class="nav-item"><a class="nav-link border rounded border-dark" href="/register" style="box-shadow: 0px 0px rgba(204,29,29,0.5);border-width: 6px;text-shadow: 0px 0px 0px var(--light);background: var(--blue);font-family: Aldrich, sans-serif;">REGISTER</a></li>
                 </ul>
             </div>
@@ -44,7 +44,7 @@
         <div class="masthead-content">
             <div class="container">
                 <h1 class="masthead-heading mb-0" style="font-family: Aldrich, sans-serif;">Trade Cryptocurrency</h1>
-                <h2 class="masthead-subheading mb-0" style="font-family: Aldrich, sans-serif;">Without losing your&nbsp;<strong>👕</strong></h2><a class="btn btn-primary btn-xl rounded-pill mt-5" role="button" href="/register" style="font-family: Aldrich, sans-serif;font-size: 16px;">try paper trading</a>
+                <h2 class="masthead-subheading mb-0" style="font-family: Aldrich, sans-serif;">Without losing your&nbsp;<strong>👕</strong></h2><a class="btn btn-primary btn-xl rounded-pill mt-5" role="button" data-bs-hover-animate="pulse" href="/register" style="font-family: Aldrich, sans-serif;font-size: 16px;background: #43b948;border-style: none;">try paper trading</a>
             </div>
         </div>
     </header>
@@ -100,6 +100,7 @@
     </footer>
     <script src="../static/assets/js/jquery.min.js"></script>
     <script src="../static/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../static/assets/js/bs-init.js"></script>
 </body>
 
 </html>
