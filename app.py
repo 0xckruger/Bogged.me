@@ -208,8 +208,12 @@ def buy():
 
     status = td.purchase(session["user"], purchase, coin_amount, coin_id)
     if status:
+<<<<<<< HEAD
         flash(
             f"Your purchase of {coin_amount} {coin_id.capitalize()} @ {price} totaling {round(purchase, 3)} has completed successfully", "success")
+=======
+        flash(f"Your purchase of {coin_amount} {coin_id.capitalize()} @ {price} totalling {round(purchase, 3)} has completed successfully", "success")
+>>>>>>> 42e3e7ebe54757de943eace279ad0584963957f4
         return redirect(url_for("trade"))
     else:
         flash("TRADE FAILED - INSUFFICIENT FUNDS", "danger")
@@ -238,8 +242,12 @@ def sell():
 
     status = td.sell(session["user"], sold_price, coin_amount, coin_id)
     if status:
+<<<<<<< HEAD
         flash(
             f"Your sale of {coin_amount} {coin_id.capitalize()} @ {price} totalling {round(sold_price, 3)} has completed successfully", "success")
+=======
+        flash(f"Your sale of {coin_amount} {coin_id.capitalize()} @ {price} totalling {round(sold_price, 3)} has completed successfully", "success")
+>>>>>>> 42e3e7ebe54757de943eace279ad0584963957f4
         return redirect(url_for("trade"))
     else:
         flash("TRADE FAILED - INSUFFICIENT COIN BALANCE", "danger")
