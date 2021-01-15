@@ -20,6 +20,7 @@ def add_user(name, email, password, confirmed_password, user_currency, balance):
     else:
         now = datetime.now()
         regtime = now.strftime("%m/%d/%Y, %H:%M:%S")
+        _id = len(db.getall()) + 1
         wallet = {
             "bitcoin": 0,
             "litecoin": 0,
@@ -27,6 +28,7 @@ def add_user(name, email, password, confirmed_password, user_currency, balance):
         }
         user_info = {
             "name": name,
+            "id": int(_id),
             "email": email,
             "password": password,
             "currency": user_currency.lower(),
@@ -39,6 +41,11 @@ def add_user(name, email, password, confirmed_password, user_currency, balance):
         db.set(name, user_info)
         return "OK"
 
+def get_id(name):
+        return db.get(name).get("id")
+    
+def get_username(name):
+        return db.get(name).get("name")
 
 def get_user(name, given_password):
     if not db.exists(name):

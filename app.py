@@ -1,4 +1,5 @@
 from flask import Flask, redirect, url_for, render_template, request, session, flash
+from flask_login import LoginManager, UserMixin
 from pycoingecko import CoinGeckoAPI
 from datetime import timedelta
 import user_database as udb
@@ -12,10 +13,25 @@ except ImportError:
 cg = CoinGeckoAPI()
 
 app = Flask(__name__)
+
+
+# User Login Configurations
+login_manager = LoginManager()
+login_manager.init_app(app)
 app.secret_key = "ShhhDon'tTellANYONE"
 app.permanent_session_lifetime = timedelta(minutes=15)
 
 
+class User(UserMixin):
+    id = len(db.getall()) + 1
+
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get(user_id)
+
+# Routes Section
 @app.route('/index')
 @app.route('/home')
 @app.route('/')
@@ -49,7 +65,8 @@ def display_price():
         return redirect(url_for("trade"))
     else:
         price = td.get_price(coin_id, convert_currency)
-        msg = "The current price for ", coin_id.capitalize(), "is ", str(price), "in ", convert_currency.upper()
+        msg = "The current price for ", coin_id.capitalize(
+        ), "is ", str(price), "in ", convert_currency.upper()
         msg = ' '.join(str(i) for i in msg)
         flash(msg, "success")
         return redirect(url_for("trade"))
@@ -67,7 +84,8 @@ def register():
         starting_balance = request.form["starting_balance"]
         password = request.form["pw"]
         confirmed_password = request.form["cpw"]
-        flag = udb.add_user(user, email, password, confirmed_password, currency, starting_balance)
+        flag = udb.add_user(user, email, password,
+                            confirmed_password, currency, starting_balance)
         print(flag)
         if flag == "OK":
             flash("Registration successful", "success")
@@ -97,6 +115,7 @@ def login():
         session["wallet"] = user_data.get("wallet")
         session["user"] = user_data.get("name")
         flash("Logged in", "success")
+        
         return redirect(url_for("trade"))
     else:
         if "user" in session:
@@ -121,6 +140,7 @@ def trade():
     else:
         return redirect(url_for("login"))
 
+
 @app.route("/leaderboard")
 # Ranks all users by percent profit determined by their total investments in wallet.
 # O(N) run time, where N is the number of users in the database.
@@ -128,28 +148,31 @@ def leaderboard():
     users = udb.get_all_users()
     leaderboard = {}
 
-    # Add users and their respective information to the leaderboard 
+    # Add users and their respective information to the leaderboard
     for user in users:
         user_name = db.get(user).get("name")
         date_joined = db.get(user).get("date_joined")
-        percent_profit = td.calculate_profit(user)[1] # [balance, percent_profit]
+        percent_profit = td.calculate_profit(
+            user)[1]  # [balance, percent_profit]
         percent_profit = round(percent_profit * 100 - 100, 2)
-        
+
         user_info = {
             "percent_profit": percent_profit,
             "date_joined": date_joined
         }
-        
+
         leaderboard.update({user_name: user_info})
-    
+
     # Rank the leaderboard in descending order
-    dict(sorted(leaderboard.items(), key=lambda item: item[0])) #item[0] accesses percent profit in user_info object
-   
+    # item[0] accesses percent profit in user_info object
+    dict(sorted(leaderboard.items(), key=lambda item: item[0]))
+
     # Render template to all site visitors, regardless of login status
     return render_template(
-        "leaderboard.html", users = users, leaderboard = leaderboard
+        "leaderboard.html", users=users, leaderboard=leaderboard
     )
-    
+
+
 @app.route("/logout")
 def logout():
     try:
@@ -163,7 +186,7 @@ def logout():
         return redirect(url_for("login"))
 
 
-@app.route("/buy")
+@app.route("/trade/buy")
 def buy():
     # balance = float(session["balance"])
     user = session["user"]
@@ -178,26 +201,23 @@ def buy():
         return redirect(url_for("trade"))
     elif currency not in cg.get_supported_vs_currencies():
         flash("PRICE CHECK FAILED - UNKNOWN CURRENCY", "danger")
-        return redirect(url_for("buy"))
+        return redirect(url_for("trade"))
 
     price = td.get_price(coin_id, currency)
     purchase = float(price) * coin_amount
 
     status = td.purchase(session["user"], purchase, coin_amount, coin_id)
     if status:
-        return render_template(
-            "executed_buy.html",
-            coin_id=coin_id.capitalize(),
-            coin_amount=coin_amount,
-            price=price,
-            purchase=round(purchase, 3))
+        flash(
+            f"Your purchase of {coin_amount} {coin_id.capitalize()} @ {price} totaling {round(purchase, 3)} has completed successfully", "success")
+        return redirect(url_for("trade"))
     else:
         flash("TRADE FAILED - INSUFFICIENT FUNDS", "danger")
         print("Error")
         return redirect(url_for("trade"))
 
 
-@app.route("/sell")
+@app.route("/trade/sell")
 def sell():
     # balance = float(session["balance"])
     user = session["user"]
@@ -218,12 +238,9 @@ def sell():
 
     status = td.sell(session["user"], sold_price, coin_amount, coin_id)
     if status:
-        return render_template(
-            "executed_sell.html",
-            coin_id=coin_id.capitalize(),
-            price=price,
-            coin_amount=coin_amount,
-            sold_price=round(sold_price, 3))
+        flash(
+            f"Your sale of {coin_amount} {coin_id.capitalize()} @ {price} totalling {round(sold_price, 3)} has completed successfully", "success")
+        return redirect(url_for("trade"))
     else:
         flash("TRADE FAILED - INSUFFICIENT COIN BALANCE", "danger")
         print("Error")
