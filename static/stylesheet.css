@@ -2,8 +2,3 @@
     float: right;
 }
 
-#leaderboard th, td{
-    background-color: red;
-    padding: 15px;
-    text-align: left;
-}
