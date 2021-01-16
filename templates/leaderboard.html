@@ -46,6 +46,7 @@
 <html>
 
 <head>
+    {% include 'flashmsg.html' %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Table - Bogged.me</title>
@@ -65,11 +66,10 @@
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="nav navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-dollar-sign"></i><span>Dashboard</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="profile.html"><i class="far fa-user"></i><span>Profile</span></a></li>
-                    <li class="nav-item"><a class="nav-link active" href="table.html"><i class="far fa-chart-bar"></i><span>Leaderboard</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="login.html"><i class="fas fa-sign-in-alt"></i><span>Login</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="register.html"><i class="far fa-clipboard"></i><span>Register</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for("trade") }}"><i class="fas fa-dollar-sign"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{ url_for("leaderboard") }}"><i class="far fa-chart-bar"></i><span>Leaderboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for("login") }}"><i class="fas fa-sign-in-alt"></i><span>Login</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for("register") }}"><i class="far fa-clipboard"></i><span>Register</span></a></li>
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
             </div>

@@ -1,56 +1,80 @@
-{% include 'header.html' %}
+<!DOCTYPE html>
+<html>
 
-<form action="#" method="post">
-  <h1>Register for an account</h1>
-      <p>Username<p>
-      <input type="text" name = "nm" maxlength = "25"/> <p>
+<head>
+    {% include 'flashmsg.html' %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Register - Bogged.me</title>
+    <meta name="description" content="Paper trade cryptocurrency for fun and (make believe) profit!">
+    <link rel="stylesheet" href="../static/dashassets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aldrich">
+    <link rel="stylesheet" href="../static/dashassets/css/untitled.css">
+</head>
 
-    <p>Email (optional)</p>
-    <input type="email" name="email" maxlength = 25/><p>
+<body class="bg-gradient-primary">
+    <div class="container">
+        <div class="card shadow-lg o-hidden border-0 my-5">
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-flex">
+                        <div class="flex-grow-1 bg-register-image" style="background-image: url(../static/dashassets/img/bogg.jpg);width: 448px;margin: 0px;padding: 0px;"></div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h4 class="text-dark mb-4">Ready to PUMP EET? Register now!</h4>
+                            </div>
+                            <form class="user" action="#" method="post">
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" id="exampleUsername" placeholder="Enter your desired username" name="username" maxlength="25" style="width: 532px;"></div>
+                                </div>
+                                <div class="form-group"><input class="form-control form-control-user" type="email" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter your email (optional)" name="email" maxlength="30" ></div>
+                                <div class="form-group"><input class="form-control form-control-user" list="currencies" type="search" id="currencySelection" placeholder="Choose your currency (suggested: USD)" name="currency" style="width: 532px;"><datalist id="currencies">
+                                <option value = "USD">
+                                <option value = "EUR">
+                                <option value = "GBP">
+                                <option value = "CAD">
+                                <option value = "CNY">
+                                <option value = "JPY">
+                                <option value = "KRW">
+                                <option value = "INR">
+                                <option value = "ARS">
+                                <option value = "AUD">
+                                <option value = "BRL">
+                                <option value = "NZD">
+                                <option value = "RUB">
+                                <option value = "KWD">
+                                <option value = "SEK">
+                                <option value = "TWD">
+                                <option value = "ZAR">
+                                <option value = "NOK">
+                                <option value = "CHF">
+                                <option value = "CLP">
+                                <option value = "HKD">
+                                <option value = "CZK">
+                                <option value = "DKK">
+                            </datalist></div>
+                                <div class="form-group"><input class="border rounded-pill form-control" type="number" id="starting-balance" placeholder="Enter your starting balance (suggested: 10,000)" maxlength="10" name="starting_balance" style="font-size: 13px;"></div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="password" id="examplePasswordInput" placeholder="Desired password" name="password" maxlength="32"></div>
+                                    <div class="col-sm-6"><input class="form-control form-control-user" type="password" id="exampleRepeatPasswordInput" placeholder="Repeat desired password" name="password_repeat" maxlength="32"></div>
+                                </div><button class="btn btn-primary btn-block text-white btn-user" type="submit">Register Account</button>
+                                <hr>
+                            </form>
+                            <!-- <div class="text-center"><a class="small" href="forgot-password.html">Forgot Password?</a></div> -->
+                            <div class="text-center"><a class="small" href="login.html">Already have an account? Login here</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../static/dashassets/js/jquery.min.js"></script>
+    <script src="../static/dashassets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+    <script src="../static/dashassets/js/theme.js"></script>
+</body>
 
-      <label>Currency (Suggested: USD)
-          <p></p>
-    <input list="currencies" name="currency" /> </label>
-    <datalist id="currencies">
-        <option value = "USD">
-        <option value = "EUR">
-        <option value = "GBP">
-        <option value = "CAD">
-        <option value = "CNY">
-        <option value = "JPY">
-        <option value = "KRW">
-        <option value = "INR">
-        <option value = "ARS">
-        <option value = "AUD">
-        <option value = "BRL">
-        <option value = "NZD">
-        <option value = "RUB">
-        <option value = "KWD">
-        <option value = "SEK">
-        <option value = "TWD">
-        <option value = "ZAR">
-        <option value = "NOK">
-        <option value = "CHF">
-        <option value = "CLP">
-        <option value = "HKD">
-        <option value = "CZK">
-        <option value = "DKK">
-    </datalist>
-    <p></p>
-
-    <p>Starting balance (Suggested: 10,000)</p>
-    <input type="number" name="starting_balance" maxlength="10" />
-
-    <p>Password</p>
-    <p><input type="password" name = "pw" maxlength = "30" /> <p>
-
-    <p>Confirm password</p>
-    <p><input type="password" name = "cpw" maxlength = "30" /> <p>
-
-
-
-    <p><input type="submit" value="submit"/> </p>
-
-</form>
-
-{% include 'footer.html' %}
+</html>

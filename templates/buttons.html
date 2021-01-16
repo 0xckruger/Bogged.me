@@ -1,0 +1,36 @@
+<!-- Trigger buttons for modal-->
+  <a data-toggle="modal" class="btn btn-primary" id="Test" value="btn_display_value" data-target="#confirm_modal" onclick="aPassValueFunction(this)"> Test</a> &nbsp;
+  <a data-toggle="modal" class="btn btn-primary" id="Test2" value="btn_display_value" data-target="#confirm_modal" onclick="aPassValueFunction(this)"> Test2</a> &nbsp;
+
+
+    <!-- Modal for Pop Up-->
+    <div class="modal" tabindex="-1" role="dialog" id="confirm-modal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Confirm</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Confirm - Are you sure?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+            <form action="{{ url_for('run') }}" method="POST">
+            <input name="pass_value" type="hidden" value="pass_value" id="hidden_input">
+            <input class="btn btn-secondary" type="submit" name="submit_button" value="Confirm">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+        function aPassValueFunction(obj){
+            let valuefromID = obj.id;
+            $('#hidden_input').val(valuefromID);
+            $("#confirm-modal").modal("show");
+        }
+    </script>

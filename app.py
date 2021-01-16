@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, render_template, request, session, flash
+from flask import Flask, redirect, url_for, render_template, request, session, flash, render_template_string
 from flask_login import LoginManager, UserMixin
 from pycoingecko import CoinGeckoAPI
 from datetime import timedelta
@@ -76,14 +76,14 @@ def display_price():
 def register():
     if request.method == "POST":
         session.permanent = True
-        user = request.form["nm"]
+        user = request.form["username"]
         email = request.form["email"]
         if email == '':
             email = "none@none"
         currency = request.form["currency"]
         starting_balance = request.form["starting_balance"]
-        password = request.form["pw"]
-        confirmed_password = request.form["cpw"]
+        password = request.form["password"]
+        confirmed_password = request.form["password_repeat"]
         flag = udb.add_user(user, email, password,
                             confirmed_password, currency, starting_balance)
         print(flag)
@@ -103,8 +103,8 @@ def register():
 def login():
     if request.method == "POST":
         session.permanent = True
-        user = request.form["nm"]
-        password = request.form["pw"]
+        user = request.form["user"]
+        password = request.form["password"]
         user_data = udb.get_user(user, password)
         if not user_data:
             flash("Log in error", "danger")
@@ -181,11 +181,35 @@ def logout():
         user = session["user"]
         session.pop("user", None)
         flash("Logged out", "success")
-        return redirect(url_for("index"))
+        return redirect(url_for("login"))
     except:
         flash("You aren't logged in", "warning")
         return redirect(url_for("login"))
 
+
+@app.route('/buttons', methods=['GET', 'POST'])
+def buttons():
+    return render_template("buttons.html")
+
+@app.route('/run', methods=['GET', 'POST'])
+def run():
+  if request.method == 'POST':
+    if request.form['pass_value'] == 'Test':
+        value ='Test just for fools and horses!'
+        return render_template_string('''{{ value }}<br>''')
+  elif request.form['pass_value'] == 'Test2':
+        value ='Test2'
+        return render_template_string('''{{ value }}<br>''')
+
+@app.route("/trade/buyModal", methods=['GET', 'POST'])
+def buyModal():
+    if request.method == 'POST':
+        print("clicked buymodal")
+        coin_id = request.form['coin_id']
+        coin_amount = request.form['coin_amount']
+        print(coin_id, coin_amount)
+    else:
+        print('get')
 
 @app.route("/trade/buy")
 def buy():
