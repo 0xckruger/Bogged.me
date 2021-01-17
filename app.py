@@ -3,7 +3,7 @@ from flask_login import LoginManager, UserMixin
 from pycoingecko import CoinGeckoAPI
 from datetime import timedelta
 import csv
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import user_database as udb
 import trader as td
 from user_database import db
@@ -229,40 +229,43 @@ def trade():
     else:
         return redirect(url_for("login"))
 
-@app.route("/trade/piechart.png")
-def piechart():
-    #wallet = session["wallet"]
-    import datetime
-    from io import BytesIO
-    import random
+# @app.route("/trade/piechart.png")
+# def piechart():
+#     #wallet = session["wallet"]
+#     import datetime
+#     from io import BytesIO
+#     import random
 
-    from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-    from matplotlib.figure import Figure
-    from matplotlib.dates import DateFormatter
+#     from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+#     from matplotlib.figure import Figure
+#     from matplotlib.dates import DateFormatter
 
-    user = session["user"]
-    wallet = session["wallet"]
+#     user = session["user"]
+#     wallet = session["wallet"]
 
-    labels = []
-    sizes = []
-    for x, y in wallet.items():
-        labels.append(x)
-        sizes.append(y)
-    plt.pie(sizes, labels=labels)
-    plt.axis('equal')
+#     labels = []
+#     sizes = []
+#     for x, y in wallet.items():
+#         labels.append(x)
+#         sizes.append(y)
+#     plt.pie(sizes, labels=labels)
+#     plt.axis('equal')
 
-    canvas = FigureCanvas(plt)
-    png_output = BytesIO()
-    canvas.print_png(png_output)
-    response = make_response(png_output.getvalue())
-    response.headers['Content-Type'] = 'image/png'
-    return response
+#     canvas = FigureCanvas(plt)
+#     png_output = BytesIO()
+#     canvas.print_png(png_output)
+#     response = make_response(png_output.getvalue())
+#     response.headers['Content-Type'] = 'image/png'
+#     return response
 
 
 @app.route("/leaderboard")
 # Ranks all users by percent profit determined by their total investments in wallet.
 # O(N) run time, where N is the number of users in the database.
 def leaderboard():
+    if "user" in session:
+        user_ = session["user"]
+
     users = udb.get_all_users()
     leaderboard = []
 
@@ -292,7 +295,7 @@ def leaderboard():
 
     # Render template to all site visitors, regardless of login status
     return render_template(
-        "leaderboard.html", users=users, leaderboard=leaderboard
+        "leaderboard.html", users=users, leaderboard=leaderboard, user_ = user_
     )
 
 
