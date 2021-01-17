@@ -74,6 +74,7 @@ def display_price():
         msg = ' '.join(str(i) for i in msg)
         flash(msg, "success")
         widget_id = find_coin_id(coin_id)
+        session["widget"] = widget_id
         return redirect(url_for("trade"))
         #return render_template("trade.html", widget_id=widget_id)
 
@@ -115,12 +116,14 @@ def register():
 def login():
     if request.method == "POST":
         session.permanent = True
+        session["widget"] = 859
         user = request.form["user"]
         password = request.form["password"]
         user_data = udb.get_user(user, password)
         if not user_data:
             flash("Log in error", "danger")
             return redirect(url_for("login"))
+
 
         session["balance"] = user_data.get("balance")
         session["starting_balance"] = user_data.get("starting_balance")
@@ -141,7 +144,9 @@ def trade():
 
     print("called from /trade")
     if "user" in session:
+
         user = session["user"]
+        widget_id = session["widget"]
         # print("balance: ", db.get(user).get("balance"))
         # print("wallet : ", db.get(user).get("wallet"))
         balance = db.get(user).get("balance")
@@ -219,22 +224,23 @@ def trade():
 
             return render_template(
                             "trade.html", user=user, balance=round(balance, 2), wallet=wallet, balance_total=balance_total,
-                            percent_profit=percent_profit)
+                            percent_profit=percent_profit, widget_id=widget_id)
     if(request.method == "GET"):
         print("called from GET /trade")
+
         return render_template(
             "trade.html", user=user, balance=round(balance, 2), wallet=wallet, balance_total=balance_total,
-            percent_profit=percent_profit)
+            percent_profit=percent_profit, widget_id=widget_id)
 
     else:
         return redirect(url_for("login"))
-
-# @app.route("/trade/piechart.png")
-# def piechart():
-#     #wallet = session["wallet"]
-#     import datetime
-#     from io import BytesIO
-#     import random
+'''
+@app.route("/trade/piechart.png")
+def piechart():
+    #wallet = session["wallet"]
+    import datetime
+    from io import BytesIO
+    import random
 
 #     from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 #     from matplotlib.figure import Figure
@@ -251,13 +257,13 @@ def trade():
 #     plt.pie(sizes, labels=labels)
 #     plt.axis('equal')
 
-#     canvas = FigureCanvas(plt)
-#     png_output = BytesIO()
-#     canvas.print_png(png_output)
-#     response = make_response(png_output.getvalue())
-#     response.headers['Content-Type'] = 'image/png'
-#     return response
-
+    canvas = FigureCanvas(plt)
+    png_output = BytesIO()
+    canvas.print_png(png_output)
+    response = make_response(png_output.getvalue())
+    response.headers['Content-Type'] = 'image/png'
+    return response
+'''
 
 @app.route("/leaderboard")
 # Ranks all users by percent profit determined by their total investments in wallet.
