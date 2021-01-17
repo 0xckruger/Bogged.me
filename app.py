@@ -271,6 +271,8 @@ def piechart():
 def leaderboard():
     if "user" in session:
         user_ = session["user"]
+    else:
+        user_ = "Stranger"
 
     users = udb.get_all_users()
     leaderboard = []
