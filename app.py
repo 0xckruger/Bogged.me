@@ -1,7 +1,9 @@
-from flask import Flask, redirect, url_for, render_template, request, session, flash, render_template_string
-# from flask_login import LoginManager, UserMixin
+from flask import Flask, redirect, url_for, render_template, request, session, flash, make_response, render_template_string
+from flask_login import LoginManager, UserMixin
 from pycoingecko import CoinGeckoAPI
 from datetime import timedelta
+import csv
+import matplotlib.pyplot as plt
 import user_database as udb
 import trader as td
 from user_database import db
@@ -55,7 +57,8 @@ def find_price():
 @app.route('/trade/displayprice/')
 def display_price():
     coin_id = request.args.get('coin_id', '')
-    convert_currency = request.args.get('currency', '')
+    user = session["user"]
+    convert_currency = session["currency"]
     coin_id = coin_id.lower()
     convert_currency = convert_currency.lower()
     if not td.check_coin(coin_id):
@@ -70,8 +73,16 @@ def display_price():
         ), "is ", str(price), "in ", convert_currency.upper()
         msg = ' '.join(str(i) for i in msg)
         flash(msg, "success")
+        widget_id = find_coin_id(coin_id)
         return redirect(url_for("trade"))
+        #return render_template("trade.html", widget_id=widget_id)
 
+def find_coin_id(coin_name):
+    with open('output.csv') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for row in csv_reader:
+            if row[0] == coin_name:
+                return(row[1])
 
 @app.route("/register", methods=["POST", "GET"])
 def register():
@@ -218,6 +229,35 @@ def trade():
     else:
         return redirect(url_for("login"))
 
+@app.route("/trade/piechart.png")
+def piechart():
+    #wallet = session["wallet"]
+    import datetime
+    from io import BytesIO
+    import random
+
+    from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+    from matplotlib.figure import Figure
+    from matplotlib.dates import DateFormatter
+
+    user = session["user"]
+    wallet = session["wallet"]
+
+    labels = []
+    sizes = []
+    for x, y in wallet.items():
+        labels.append(x)
+        sizes.append(y)
+    plt.pie(sizes, labels=labels)
+    plt.axis('equal')
+
+    canvas = FigureCanvas(plt)
+    png_output = BytesIO()
+    canvas.print_png(png_output)
+    response = make_response(png_output.getvalue())
+    response.headers['Content-Type'] = 'image/png'
+    return response
+
 
 @app.route("/leaderboard")
 # Ranks all users by percent profit determined by their total investments in wallet.
@@ -247,7 +287,7 @@ def leaderboard():
     #dict(sorted(leaderboard.items(), key=lambda item: item[0]))
     def rank_by_percent_profit(lb):
         return lb['percent_profit']
-    
+
     leaderboard.sort(key=rank_by_percent_profit, reverse=True)
 
     # Render template to all site visitors, regardless of login status
@@ -281,6 +321,9 @@ def buyModal():
     else:
         print('get')
 
+@app.route("/trade/preprice", methods=['GET', 'POST'])
+def prebuy():
+    print("preprice")
 
 @app.route("/trade/buy", methods=['GET', 'POST'])
 def buy():
