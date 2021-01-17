@@ -3,14 +3,14 @@
 </head>
 <body>
 <div class="card-body">
-                                    <form action="/trade#buyModal" method="POST">
-                                        <div class="form-group"><label>Coin Name</label><input class="form-control" type="search" name="coin_id"></div>
+                                    <form action="/trade" method="POST" name="buy-form">
+                                        <div class="form-group"><label>Coin Name</label><input class="form-control" type="text" name="coin_id"></div>
 
                                     <div class="input-group">
                                         <div class="input-group-prepend"><span class="input-group-text">Amount</span></div><input class="form-control" type="text" name="coin_amount">
                                         <div class="input-group-append"><a class="btn btn-primary" role="button" data-toggle="modal" href="#buyModal" type="submit" value="Continue">Buy</a></div>
                                     </div>
-                                        </form>
+                                       <!-- </form> --> 
                                     <div>
                                         <div class="modal fade" role="dialog" tabindex="-1" id="buyModal">
                                             <div class="modal-dialog" role="document">
@@ -21,13 +21,14 @@
                                                     <div class="modal-body">
                                                         <p class="text-center text-muted">Confirm purchase of {{amount}} {{coin_id}} for {{price}}?</p>
                                                     </div>
-                                                    <form action="/trade#buyModal" method="POST">
+                                                    <form action="/trade" method="POST">
                                                         <div class="modal-footer"><button class="btn btn-light" data-dismiss="modal" type="button">Cancel</button><button class="btn btn-primary" type="submit" name="confirm">Confirm</button></div>
                                                     </form>
                                                     
                                                 </div>
                                             </div>
                                         </div>
+                                        </form>
                                     </div>
                                 </div>
 </body>

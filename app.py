@@ -135,18 +135,16 @@ def trade():
             wallet = db.get(user).get("wallet")
             balance_total = td.calculate_profit(user)[0]
             percent_profit = td.calculate_profit(user)[1]
-
-            if(request.method == "GET"):
-                print("called from GET /trade")
-                return render_template(
-                "trade.html", user=user, balance=round(balance, 2), wallet=wallet, balance_total=balance_total,
-                percent_profit=percent_profit)
-            
-            elif(request.method == "POST"):
+              
+            if(request.method == "POST"):
                 print("called from POST /trade")
+                
                 #Collects buy information from user
-                coin_id = request.form.get("coin_id")
-                coin_amount = request.form.get("coin_amount")
+                print(request.form)
+                coin_id = request.form["coin_id"]
+                coin_id = coin_id.lower()
+                coin_amount = request.form["coin_amount"]
+                coin_amount = float(coin_amount)
                 print(f"coin_id: {coin_id}")
                 print(f"coin_amount: {coin_amount}")
                 currency = db.get(user).get("currency")
@@ -178,6 +176,11 @@ def trade():
 
                 # handles a sell confirmation
 
+                return render_template(
+                "trade.html", user=user, balance=round(balance, 2), wallet=wallet, balance_total=balance_total,
+                percent_profit=percent_profit)
+    if(request.method == "GET"):
+                print("called from GET /trade")
                 return render_template(
                 "trade.html", user=user, balance=round(balance, 2), wallet=wallet, balance_total=balance_total,
                 percent_profit=percent_profit)
