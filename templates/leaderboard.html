@@ -153,6 +153,7 @@
                                 <table class="table my-0" id="dataTable">
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th>Username</th>
                                             <th>Date Joined</th>
                                             <th>Percent Profit</th>
@@ -162,6 +163,7 @@
 
                                         {% for user in leaderboard %}
                                         <tr>
+                                            <td>{{leaderboard.index(user) + 1}}</td>
                                             <td>{{user["user_name"]}}</td>
                                             <td>{{user["date_joined"]}}</td>
                                             <td>
@@ -263,6 +265,7 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
+                                            <td><strong>#</strong></td>
                                             <td><strong>Username</strong></td>
                                             <td><strong>Date Joined</strong></td>
                                             <td><strong>Percent Profit</strong></td>
@@ -272,7 +275,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6 align-self-center">
-                                    <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 27</p>
+                                    <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to {{leaderboard|length}}</p>
                                 </div>
                                 <div class="col-md-6">
                                     <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
