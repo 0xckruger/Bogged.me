@@ -126,6 +126,8 @@ def login():
 
 @app.route("/trade", methods=['GET','POST'])
 def trade():
+
+    print(request.form["name"])
     print("called from /trade")
     if "user" in session:
             user = session["user"]
@@ -141,17 +143,24 @@ def trade():
                 
                 #Collects buy information from user
                 print(request.form)
-                coin_id = request.form["coin_id"]
-                coin_id = coin_id.lower()
-                coin_amount = request.form["coin_amount"]
-                coin_amount = float(coin_amount)
-                print(f"coin_id: {coin_id}")
-                print(f"coin_amount: {coin_amount}")
+                # Info from buy form
+                coin_id_buy = request.form["coin_id_buy"]
+                coin_id_buy = coin_id.lower()
+                coin_amount_buy = request.form["coin_amount_buy"]
+                coin_amount_buy = float(coin_amount)
+
+                #Info from sell form
+                coin_id_sell = request.form["coin_id_sell"]
+                coin_id_sell = coin_id.lower()
+                coin_amount_buy = request.form["coin_amount_sell"]
+                coin_amount_buy = float(coin_amount)
+
+
                 currency = db.get(user).get("currency")
 
                 # handles a buy
                 print("called from POST /trade, performing buy")
-                if not td.check_coin(coin_id):
+                if not td.check_coin(coin_id_buy):
                     flash("TRADE FAILED - UNKNOWN COIN", "danger")
                     return redirect(url_for("trade"))
                 elif currency not in cg.get_supported_vs_currencies():
@@ -172,9 +181,27 @@ def trade():
 
                 
                 #handles a sell
+                print("Performing a sell")
+                if not td.check_coin(coin_id):
+                    flash("TRADE FAILED - UNKNOWN COIN", "danger")
+                    return redirect(url_for("trade"))
+                elif currency not in cg.get_supported_vs_currencies():
+                    flash("PRICE CHECK FAILED - UNKNOWN CURRENCY", "danger")
+                    return redirect(url_for("sell"))
 
+                price = td.get_price(coin_id, currency)
+                sold_price = float(price) * coin_amount
 
-                # handles a sell confirmation
+                status = td.sell(session["user"], sold_price, coin_amount, coin_id)
+                if status:
+                    flash(
+                        f"Your sale of {coin_amount} {coin_id.capitalize()} @ {price} totalling {round(sold_price, 3)} has completed successfully", "success")
+                    return redirect(url_for("trade"))
+                else:
+                    flash("TRADE FAILED - INSUFFICIENT COIN BALANCE", "danger")
+                    print("Error")
+                    return redirect(url_for("trade"))
+
 
                 return render_template(
                 "trade.html", user=user, balance=round(balance, 2), wallet=wallet, balance_total=balance_total,
