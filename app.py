@@ -1,5 +1,5 @@
 from flask import Flask, redirect, url_for, render_template, request, session, flash, render_template_string
-from flask_login import LoginManager, UserMixin
+# from flask_login import LoginManager, UserMixin
 from pycoingecko import CoinGeckoAPI
 from datetime import timedelta
 import user_database as udb
@@ -16,19 +16,19 @@ app = Flask(__name__)
 
 
 # User Login Configurations
-login_manager = LoginManager()
-login_manager.init_app(app)
+# login_manager = LoginManager()
+# login_manager.init_app(app)
 app.secret_key = "ShhhDon'tTellANYONE"
 app.permanent_session_lifetime = timedelta(minutes=15)
 
 
-class User(UserMixin):
-    id = len(db.getall()) + 1
+# class User(UserMixin):
+#     id = len(db.getall()) + 1
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.get(user_id)
+# @login_manager.user_loader
+# def load_user(user_id):
+#     return User.get(user_id)
 
 # Routes Section
 
@@ -224,7 +224,7 @@ def trade():
 # O(N) run time, where N is the number of users in the database.
 def leaderboard():
     users = udb.get_all_users()
-    leaderboard = {}
+    leaderboard = []
 
     # Add users and their respective information to the leaderboard
     for user in users:
@@ -235,15 +235,20 @@ def leaderboard():
         percent_profit = round(percent_profit * 100 - 100, 2)
 
         user_info = {
+            "user_name": user_name,
             "percent_profit": percent_profit,
             "date_joined": date_joined
         }
 
-        leaderboard.update({user_name: user_info})
+        leaderboard.append(user_info)
 
     # Rank the leaderboard in descending order
     # item[0] accesses percent profit in user_info object
-    dict(sorted(leaderboard.items(), key=lambda item: item[0]))
+    #dict(sorted(leaderboard.items(), key=lambda item: item[0]))
+    def rank_by_percent_profit(lb):
+        return lb['percent_profit']
+    
+    leaderboard.sort(key=rank_by_percent_profit, reverse=True)
 
     # Render template to all site visitors, regardless of login status
     return render_template(

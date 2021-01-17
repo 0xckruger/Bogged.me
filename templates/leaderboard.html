@@ -1,46 +1,3 @@
-<!-- {% include 'header.html' %}
-
-<style>
-    table{
-        border-collapse: collapse;
-    }
-    th, td{
-        border: 1px solid #999;
-        padding: 0.5rem;
-        text-align: left;
-    }
-    
-    #leaderboard{
-        padding-left: 2em;
-
-    }
-</style>
-<br>
-<section id="leaderboard">
-    <h3>Leaderboard</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Username</th>
-                <th>Date Joined</th>
-                <th>Percent Profit</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for username, user_info in leaderboard.items() %}
-            <tr>
-                <td>{{username}}</td>
-                <td>{{user_info["date_joined"]}}</td>
-                <td>{{user_info["percent_profit"]}}%</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <br>
-</section>
-
-
-{% include 'footer.html' %} -->
 
 <!DOCTYPE html>
 <html>
@@ -203,15 +160,15 @@
                                     </thead>
                                     <tbody>
 
-                                        {% for username, user_info in leaderboard.items() %}
+                                        {% for user in leaderboard %}
                                         <tr>
-                                            <td>{{username}}</td>
-                                            <td>{{user_info["date_joined"]}}</td>
+                                            <td>{{user["user_name"]}}</td>
+                                            <td>{{user["date_joined"]}}</td>
                                             <td>
-                                                {{user_info["percent_profit"]}}%
-                                                {% if user_info["percent_profit"] > 0%}
+                                                {{user["percent_profit"]}}%
+                                                {% if user["percent_profit"] > 0%}
                                                 <img class="rounded-circle mr-2" width="30" height="30" src="../static/dashassets/img/Arrows/green-up.png">
-                                                {% elif user_info["percent_profit"] < 0 %}
+                                                {% elif user["percent_profit"] < 0 %}
                                                 <img class="rounded-circle mr-2" width="30" height="30" src="../static/dashassets/img/Arrows/red-down.png">
                                                 {% else %}
                                                 <img class="rounded-circle mr-2" width="30" height="30" src="../static/dashassets/img/Arrows/gray-bar.png">
