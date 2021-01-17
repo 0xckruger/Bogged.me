@@ -26,12 +26,13 @@ class User(UserMixin):
     id = len(db.getall()) + 1
 
 
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.get(user_id)
 
 # Routes Section
+
+
 @app.route('/index')
 @app.route('/home')
 @app.route('/')
@@ -109,14 +110,14 @@ def login():
         if not user_data:
             flash("Log in error", "danger")
             return redirect(url_for("login"))
-        
+
         session["balance"] = user_data.get("balance")
         session["starting_balance"] = user_data.get("starting_balance")
         session["currency"] = user_data.get("currency")
         session["wallet"] = user_data.get("wallet")
         session["user"] = user_data.get("name")
         flash("Logged in", "success")
-        
+
         return redirect(url_for("trade"))
     else:
         if "user" in session:
@@ -124,53 +125,52 @@ def login():
         return render_template("login.html")
 
 
-@app.route("/trade", methods=['GET','POST'])
+@app.route("/trade", methods=['GET', 'POST'])
 def trade():
 
-    print(request.form["name"])
     print("called from /trade")
     if "user" in session:
-            user = session["user"]
-            # print("balance: ", db.get(user).get("balance"))
-            # print("wallet : ", db.get(user).get("wallet"))
-            balance = db.get(user).get("balance")
-            wallet = db.get(user).get("wallet")
-            balance_total = td.calculate_profit(user)[0]
-            percent_profit = td.calculate_profit(user)[1]
-              
-            if(request.method == "POST"):
-                print("called from POST /trade")
-                
-                #Collects buy information from user
-                print(request.form)
-                # Info from buy form
-                coin_id_buy = request.form["coin_id_buy"]
-                coin_id_buy = coin_id.lower()
-                coin_amount_buy = request.form["coin_amount_buy"]
-                coin_amount_buy = float(coin_amount)
+        user = session["user"]
+        # print("balance: ", db.get(user).get("balance"))
+        # print("wallet : ", db.get(user).get("wallet"))
+        balance = db.get(user).get("balance")
+        wallet = db.get(user).get("wallet")
+        balance_total = td.calculate_profit(user)[0]
+        percent_profit = td.calculate_profit(user)[1]
 
-                #Info from sell form
-                coin_id_sell = request.form["coin_id_sell"]
-                coin_id_sell = coin_id.lower()
-                coin_amount_buy = request.form["coin_amount_sell"]
-                coin_amount_buy = float(coin_amount)
+        if(request.method == "POST"):
+            print("called from POST /trade")
 
+            # Collects buy information from user
+            print(request.form)
+            coin_id = request.form["coin_id"]
+            coin_id = coin_id.lower()
+            coin_amount = request.form["coin_amount"]
+            coin_amount = float(coin_amount)
+            currency = db.get(user).get("currency")
 
-                currency = db.get(user).get("currency")
+            # #Info from sell form
+            # coin_id_sell = request.form["coin_id_sell"]
+            # coin_id_sell = coin_id_sell.lower()
+            # coin_amount_sell = request.form["coin_amount_sell"]
+            # coin_amount_sell = float(coin_amount_sell)
 
-                # handles a buy
-                print("called from POST /trade, performing buy")
-                if not td.check_coin(coin_id_buy):
-                    flash("TRADE FAILED - UNKNOWN COIN", "danger")
-                    return redirect(url_for("trade"))
+            
+
+            # handles a buy
+            if("confirm_buy" in request.form):
+                print("performing a buy")
+                if not td.check_coin(coin_id):
+                        flash("TRADE FAILED - UNKNOWN COIN", "danger")
+                        return redirect(url_for("trade"))
                 elif currency not in cg.get_supported_vs_currencies():
                     flash("PRICE CHECK FAILED - UNKNOWN CURRENCY", "danger")
                     return redirect(url_for("trade"))
 
                 price = td.get_price(coin_id, currency)
                 purchase = float(price) * coin_amount
-
-                status = td.purchase(session["user"], purchase, coin_amount, coin_id)
+                status = td.purchase(
+                    session["user"], purchase, coin_amount, coin_id)
                 if status:
                     flash(
                         f"Your purchase of {coin_amount} {coin_id.capitalize()} @ {price} totaling {round(purchase, 3)} has completed successfully", "success")
@@ -179,12 +179,12 @@ def trade():
                     flash("TRADE FAILED - INSUFFICIENT FUNDS", "danger")
                     print("Error")
 
-                
-                #handles a sell
-                print("Performing a sell")
+                # handles a sell
+            elif("confirm_sell" in request.form):
+                print("Getting ready to perform a sell")
                 if not td.check_coin(coin_id):
-                    flash("TRADE FAILED - UNKNOWN COIN", "danger")
-                    return redirect(url_for("trade"))
+                        flash("TRADE FAILED - UNKNOWN COIN", "danger")
+                        return redirect(url_for("trade"))
                 elif currency not in cg.get_supported_vs_currencies():
                     flash("PRICE CHECK FAILED - UNKNOWN CURRENCY", "danger")
                     return redirect(url_for("sell"))
@@ -192,30 +192,31 @@ def trade():
                 price = td.get_price(coin_id, currency)
                 sold_price = float(price) * coin_amount
 
-                status = td.sell(session["user"], sold_price, coin_amount, coin_id)
+                status = td.sell(
+                    session["user"], sold_price, coin_amount, coin_id)
                 if status:
                     flash(
                         f"Your sale of {coin_amount} {coin_id.capitalize()} @ {price} totalling {round(sold_price, 3)} has completed successfully", "success")
                     return redirect(url_for("trade"))
                 else:
-                    flash("TRADE FAILED - INSUFFICIENT COIN BALANCE", "danger")
+                    flash(
+                        "TRADE FAILED - INSUFFICIENT COIN BALANCE", "danger")
                     print("Error")
                     return redirect(url_for("trade"))
+                    
+                        
 
-
-                return render_template(
-                "trade.html", user=user, balance=round(balance, 2), wallet=wallet, balance_total=balance_total,
-                percent_profit=percent_profit)
+            return render_template(
+                            "trade.html", user=user, balance=round(balance, 2), wallet=wallet, balance_total=balance_total,
+                            percent_profit=percent_profit)
     if(request.method == "GET"):
-                print("called from GET /trade")
-                return render_template(
-                "trade.html", user=user, balance=round(balance, 2), wallet=wallet, balance_total=balance_total,
-                percent_profit=percent_profit)
-            
+        print("called from GET /trade")
+        return render_template(
+            "trade.html", user=user, balance=round(balance, 2), wallet=wallet, balance_total=balance_total,
+            percent_profit=percent_profit)
+
     else:
         return redirect(url_for("login"))
-
-
 
 
 @app.route("/leaderboard")

@@ -2,10 +2,10 @@
 <html lang="en">
 <div class="card-body">
                                     <form action="/trade" method="POST" name="sell-form">
-                                        <div class="form-group"><label>Coin Name</label><input class="form-control" type="search" name="coin_id_sell"></div>
+                                        <div class="form-group"><label>Coin Name</label><input class="form-control" type="search" name="coin_id"></div>
                                     
                                     <div class="input-group">
-                                        <div class="input-group-prepend"><span class="input-group-text">Amount</span></div><input class="form-control" type="text" name="coin_amount_sell">
+                                        <div class="input-group-prepend"><span class="input-group-text">Amount</span></div><input class="form-control" type="text" name="coin_amount">
                                         <div class="input-group-append"><a class="btn btn-primary" role="button" data-toggle="modal" href="#sellModal">Sell</a></div>
                                     </div>
                                     <div>
@@ -20,7 +20,7 @@
                                                     </div>
                                                     <form action="/trade" method="POST">
                                                         <div class="modal-footer"><button class="btn btn-light" data-dismiss="modal" type="button">Cancel</button>
-                                                            <button class="btn btn-primary" type="submit" name="confirm">Confirm</button></div>
+                                                            <button class="btn btn-primary" type="submit" name="confirm_sell">Confirm</button></div>
                                                     </form>
             
                                                 </div>
