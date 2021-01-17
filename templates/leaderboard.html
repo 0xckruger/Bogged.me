@@ -167,11 +167,14 @@
                                             <td>
                                                 {{user["percent_profit"]}}%
                                                 {% if user["percent_profit"] > 0%}
-                                                <img class="rounded-circle mr-2" width="30" height="30" src="../static/dashassets/img/Arrows/green-up.png">
+                                                <i class="fas fa-arrow-up" style="color: green"></i>
+                                                <!-- <img class="rounded-circle mr-2" width="30" height="30" src="../static/dashassets/img/Arrows/green-up.png"> -->
                                                 {% elif user["percent_profit"] < 0 %}
-                                                <img class="rounded-circle mr-2" width="30" height="30" src="../static/dashassets/img/Arrows/red-down.png">
+                                                <i class="fas fa-arrow-down" style="color: red;"></i>
+                                                <!-- <img class="rounded-circle mr-2" width="30" height="30" src="../static/dashassets/img/Arrows/red-down.png"> -->
                                                 {% else %}
-                                                <img class="rounded-circle mr-2" width="30" height="30" src="../static/dashassets/img/Arrows/gray-bar.png">
+                                                <i class="fas fa-meh"></i>
+                                                <!-- <img class="rounded-circle mr-2" width="30" height="30" src="../static/dashassets/img/Arrows/gray-bar.png"> -->
                                                 {% endif %}
                                             </td>
                                         </tr>
