@@ -187,21 +187,7 @@ def logout():
         return redirect(url_for("login"))
 
 
-@app.route('/buttons', methods=['GET', 'POST'])
-def buttons():
-    return render_template("buttons.html")
-
-@app.route('/run', methods=['GET', 'POST'])
-def run():
-  if request.method == 'POST':
-    if request.form['pass_value'] == 'Test':
-        value ='Test just for fools and horses!'
-        return render_template_string('''{{ value }}<br>''')
-  elif request.form['pass_value'] == 'Test2':
-        value ='Test2'
-        return render_template_string('''{{ value }}<br>''')
-
-@app.route("/trade/buyModal", methods=['GET', 'POST'])
+@app.route("/trade#buyModal", methods=['GET', 'POST'])
 def buyModal():
     if request.method == 'POST':
         print("clicked buymodal")
