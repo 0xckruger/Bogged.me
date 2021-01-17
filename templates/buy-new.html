@@ -3,7 +3,7 @@
 </head>
 <body>
 <div class="card-body">
-                                    <form action="/trade/buyModal" method="POST">
+                                    <form action="/trade#buyModal" method="POST">
                                         <div class="form-group"><label>Coin Name</label><input class="form-control" type="search" name="coin_id"></div>
 
                                     <div class="input-group">
@@ -21,7 +21,7 @@
                                                     <div class="modal-body">
                                                         <p class="text-center text-muted">Confirm purchase of {{amount}} {{coin_id}} for {{price}}?</p>
                                                     </div>
-                                                    <form action="/trade/buy" method="POST">
+                                                    <form action="/trade#buyModal" method="POST">
                                                         <div class="modal-footer"><button class="btn btn-light" data-dismiss="modal" type="button">Cancel</button><button class="btn btn-primary" type="submit" name="confirm">Confirm</button></div>
                                                     </form>
                                                     

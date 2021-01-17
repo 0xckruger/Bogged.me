@@ -75,7 +75,10 @@ def calculate_profit(user):
 
 
 def check_coin(coin_id):
+    #if not coin_id[0].isdigit():
+        #coin_id = coin_id.lower()
     try:
+        
         data = cg.get_coin_by_id(coin_id)
         print("good coin")
         return True

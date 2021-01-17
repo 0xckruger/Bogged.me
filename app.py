@@ -124,22 +124,68 @@ def login():
         return render_template("login.html")
 
 
-@app.route("/trade")
+@app.route("/trade", methods=['GET','POST'])
 def trade():
+    print("called from /trade")
     if "user" in session:
-        user = session["user"]
-        # print("balance: ", db.get(user).get("balance"))
-        # print("wallet : ", db.get(user).get("wallet"))
-        balance = db.get(user).get("balance")
-        wallet = db.get(user).get("wallet")
-        balance_total = td.calculate_profit(user)[0]
-        percent_profit = td.calculate_profit(user)[1]
+            user = session["user"]
+            # print("balance: ", db.get(user).get("balance"))
+            # print("wallet : ", db.get(user).get("wallet"))
+            balance = db.get(user).get("balance")
+            wallet = db.get(user).get("wallet")
+            balance_total = td.calculate_profit(user)[0]
+            percent_profit = td.calculate_profit(user)[1]
 
-        return render_template(
-            "trade.html", user=user, balance=round(balance, 2), wallet=wallet, balance_total=balance_total,
-            percent_profit=percent_profit)
+            if(request.method == "GET"):
+                print("called from GET /trade")
+                return render_template(
+                "trade.html", user=user, balance=round(balance, 2), wallet=wallet, balance_total=balance_total,
+                percent_profit=percent_profit)
+            
+            elif(request.method == "POST"):
+                print("called from POST /trade")
+                #Collects buy information from user
+                coin_id = request.form.get("coin_id")
+                coin_amount = request.form.get("coin_amount")
+                print(f"coin_id: {coin_id}")
+                print(f"coin_amount: {coin_amount}")
+                currency = db.get(user).get("currency")
+
+                # handles a buy
+                print("called from POST /trade, performing buy")
+                if not td.check_coin(coin_id):
+                    flash("TRADE FAILED - UNKNOWN COIN", "danger")
+                    return redirect(url_for("trade"))
+                elif currency not in cg.get_supported_vs_currencies():
+                    flash("PRICE CHECK FAILED - UNKNOWN CURRENCY", "danger")
+                    return redirect(url_for("trade"))
+
+                price = td.get_price(coin_id, currency)
+                purchase = float(price) * coin_amount
+
+                status = td.purchase(session["user"], purchase, coin_amount, coin_id)
+                if status:
+                    flash(
+                        f"Your purchase of {coin_amount} {coin_id.capitalize()} @ {price} totaling {round(purchase, 3)} has completed successfully", "success")
+                    return redirect(url_for("trade"))
+                else:
+                    flash("TRADE FAILED - INSUFFICIENT FUNDS", "danger")
+                    print("Error")
+
+                
+                #handles a sell
+
+
+                # handles a sell confirmation
+
+                return render_template(
+                "trade.html", user=user, balance=round(balance, 2), wallet=wallet, balance_total=balance_total,
+                percent_profit=percent_profit)
+            
     else:
         return redirect(url_for("login"))
+
+
 
 
 @app.route("/leaderboard")
@@ -189,7 +235,9 @@ def logout():
 
 @app.route("/trade#buyModal", methods=['GET', 'POST'])
 def buyModal():
+    print("called from /trade#buyModal")
     if request.method == 'POST':
+        print("Called from /trade#buyModal")
         print("clicked buymodal")
         coin_id = request.form['coin_id']
         coin_amount = request.form['coin_amount']
@@ -197,8 +245,10 @@ def buyModal():
     else:
         print('get')
 
-@app.route("/trade/buy")
+
+@app.route("/trade/buy", methods=['GET', 'POST'])
 def buy():
+    print("called from /trade/buy")
     # balance = float(session["balance"])
     user = session["user"]
     coin_id = request.args.get('coin_id', '')
@@ -228,8 +278,9 @@ def buy():
         return redirect(url_for("trade"))
 
 
-@app.route("/trade/sell")
+@app.route("/trade/sell", methods=['GET', 'POST'])
 def sell():
+    print("/trade/sell")
     # balance = float(session["balance"])
     user = session["user"]
     coin_id = request.args.get('coin_id', '')
