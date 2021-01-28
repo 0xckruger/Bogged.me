@@ -1,5 +1,4 @@
 from flask import Flask, redirect, url_for, render_template, request, session, flash, make_response, render_template_string
-from flask_login import LoginManager, UserMixin
 from pycoingecko import CoinGeckoAPI
 from datetime import timedelta
 import csv
