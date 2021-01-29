@@ -1,4 +1,5 @@
 venv/*
+newenv/*
 __pycache__
-
+.env
 /index.html.old
