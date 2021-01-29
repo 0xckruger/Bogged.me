@@ -2,5 +2,12 @@ venv/*
 newenv/*
 test.txt
 __pycache__
-.env
+/.env
 /index.html.old
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
