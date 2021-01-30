@@ -286,7 +286,7 @@ def logout():
 
 #     else:
 #         return redirect(url_for("login"))
-# '''
+# ''' TODO Pie chart for displaying user's wallets dynamically,
 # @app.route("/trade/piechart.png")
 # def piechart():
 #     #wallet = session["wallet"]
