@@ -3,29 +3,61 @@ from pymongo import MongoClient
 import os
 import pickledb as pdb
 from datetime import datetime
+from dotenv import load_dotenv
 
-secret = os.environ.get("DB_pass")
+load_dotenv()
+secret = os.environ.get("DB_PASS")
 username = os.environ.get("USERNAME")
-# Remember to copy the connection string from the atlas client :) 
-cluster = pymongo.MongoClient(f"mongodb+srv://{username}:{secret}@cluster0.oykhk.mongodb.net/pymongo_auth?retryWrites=true&w=majority")
+# Remember to copy the connection string from the atlas client :)
+
+cluster = pymongo.MongoClient(
+    f"mongodb+srv://{username}:{secret}@cluster0.kxem4.mongodb.net/bogged?retryWrites=true&w=majority")
 # Name of created cluster
-db = cluster["pymongo_auth"]
+db = cluster["bogged"]
 # Name of crated collection
-collection = db["users"]
+collection = db["bogged-users"]
+
 
 def add_user(user):
     return collection.insert_one(user)
 
-def check_for_user(email):
-    if collection.find_one({"email" : email}):
+
+def check_for_user(name):
+    if collection.find_one({"name": name}):
         return True
     else:
         return False
-    
-def get_user(email):
-    return collection.find_one({"email" : email})
 
-#import currency
+
+def get_user(name):
+    return collection.find_one({"name": name})
+
+
+def get_user_name(name):
+    return name.get("name")
+
+
+def get_user_id(user):
+    return user.get("_id")
+
+
+def get_user_balance(user):
+    print("balance from get_user_balance", user.get("balance"))
+    return user.get("balance")
+
+
+def get_user_wallet(user):
+    return user.get("wallet")
+
+
+def get_user_currency(user):
+    return user.get("currency")
+
+
+def get_user_starting_balance(user):
+    return user.get("starting_balance")
+
+# import currency
 
 # db = pdb.load('bogged_user_database.db', True)
 # accepted_currencies = ['usd', 'ars', 'aud', 'cad', 'chf', 'clp', 'cny', 'czk', 'dkk', 'eur', 'gbp', 'hkd', 'inr',
@@ -68,7 +100,7 @@ def get_user(email):
 
 # def get_id(name):
 #         return db.get(name).get("id")
-    
+
 # def get_username(name):
 #         return db.get(name).get("name")
 
@@ -86,4 +118,3 @@ def get_user(email):
 # def get_all_users():
 #     all_user_keys = db.getall()
 #     return all_user_keys
-    
