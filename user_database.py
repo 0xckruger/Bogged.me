@@ -7,7 +7,7 @@ from datetime import datetime
 #load_dotenv()
 #secret = os.environ.get("DB_PASS")
 #username = os.environ.get("USERNAME")
-MONGODB_URI = os.environ.get("MONGODB_URI")
+MONGODB_URI = os.getenv("MONGODB_URI")
 # Remember to copy the connection string from the atlas client :)
 
 #cluster = pymongo.MongoClient(
