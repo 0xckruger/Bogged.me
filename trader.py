@@ -1,3 +1,4 @@
+from flask import session
 from pycoingecko import CoinGeckoAPI
 from user_database import db
 import user_database as udb
@@ -19,10 +20,9 @@ def get_price(coin_id, currency):
 
 
 def purchase(user, purchase, coin_amount, coin_id):
-    balance = udb.get_user_balance(user)
+    balance = session["balance"]
     wallet = udb.get_user_wallet(user)
-    id = udb.get_user_id(user)
-    print("balance before:", balance)
+    _id = udb.get_user_id(user)
     if balance < purchase:
         print("Error: Balance cannot be less than purchase")
         return False
@@ -33,12 +33,8 @@ def purchase(user, purchase, coin_amount, coin_id):
         else:
             wallet[coin_id] = coin_amount
 
-        # user_data_temp = udb.get_user(user)
-        # user_data_temp["balance"] = balance
-        # user_data_temp["wallet"] = wallet
-        print("balance after: ", new_balance)
         udb.collection.update_one(
-            {"_id": id},
+            {"_id": _id},
             {
                 "$set": {
                     "balance": new_balance,
@@ -46,12 +42,14 @@ def purchase(user, purchase, coin_amount, coin_id):
                 }
             }
         )
+        session["balance"] = new_balance
         return True
 
 
-def sell(user, purchase, coin_amount, coin_id):
-    balance = db.get(user).get("balance")
-    wallet = db.get(user).get("wallet")
+def sell(user, sold_price, coin_amount, coin_id):
+    balance = session["balance"]
+    wallet = udb.get_user_wallet(user)
+    _id = udb.get_user_id(user)
     coin_balance = wallet.get(coin_id)
     if coin_amount > coin_balance:
         print("Error: Not enough coins")
@@ -59,19 +57,22 @@ def sell(user, purchase, coin_amount, coin_id):
     else:
         coin_balance -= coin_amount
         wallet[coin_id] = coin_balance
-        balance += purchase
-
-        user_data_temp = db.get(user)
-        user_data_temp["balance"] = balance
-        user_data_temp["wallet"] = wallet
-        db.set(user, user_data_temp)
-        # db.dump()
+        new_balance = balance + sold_price
+        udb.collection.update_one(
+            {"_id": _id},
+            {
+                "$set": {
+                    "balance": new_balance,
+                    "wallet": wallet
+                }
+            }
+        )
+        session["balance"] = new_balance
         return True
 
 
 def calculate_profit(user):
-    balance = udb.get_user_balance(user)
-    print(f"balance in calculate profit: {balance}")
+    balance = session["balance"]
     currency = udb.get_user_currency(user).lower()
     starting_balance = udb.get_user_starting_balance(user)
     wallet = udb.get_user_wallet(user)
@@ -79,9 +80,7 @@ def calculate_profit(user):
     for coin in wallet:
         temp_coin_balance = wallet[coin]
         temp_coin_balance *= cg.get_price(ids=coin, vs_currencies=currency).get(coin).get(currency)
-        # print(temp_coin_balance)
         coin_balance += temp_coin_balance
-    print(f"coin balance: {coin_balance}")
     balance += coin_balance
     percent_profit = balance / starting_balance
     return [balance, percent_profit]

@@ -42,7 +42,6 @@ def get_user_id(user):
 
 
 def get_user_balance(user):
-    print("balance from get_user_balance", user.get("balance"))
     return user.get("balance")
 
 

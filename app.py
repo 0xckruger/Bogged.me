@@ -56,13 +56,14 @@ def register():
 def login():
     # Handles a user login
     if request.method == 'POST':
-        # session.permanent = True
         session["widget"] = 859
         user = User()
         success_flag = user.login()
 
         if success_flag:
+            session.permanent = True
             user = session['user']
+            session["username"] = udb.get_user_name(user)
             session["balance"] = udb.get_user_balance(user)
             session["id"] = udb.get_user_id(user)
             session["starting_balance"] = udb.get_user_starting_balance(user)
@@ -145,7 +146,7 @@ def find_coin_id(coin_name):
         csv_reader = csv.reader(csv_file, delimiter=',')
         for row in csv_reader:
             if row[0] == coin_name:
-                return (row[1])
+                return row[1]
 
 
 '''Trade route; main website utility for trading cryptocurrency'''
@@ -159,7 +160,7 @@ def trade():
         widget_id = session["widget"]
 
         username = udb.get_user_name(user)
-        balance = udb.get_user_balance(user)
+        balance = session["balance"]
         wallet = udb.get_user_wallet(user)
         currency = udb.get_user_currency(user)
         balance_total = td.calculate_profit(user)[0]
@@ -204,7 +205,7 @@ def trade():
                     flash("TRADE FAILED - INSUFFICIENT FUNDS", "danger")
 
                 # handles a sell
-            elif ("confirm_sell" in request.form):
+            elif "confirm_sell" in request.form:
                 print("Getting ready to perform a sell")
                 if not td.check_coin(coin_id):
                     flash("TRADE FAILED - UNKNOWN COIN", "danger")
