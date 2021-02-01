@@ -3,3 +3,4 @@ pycoingecko~=1.4.0
 gunicorn
 pymongo
 passlib
+dnspython
