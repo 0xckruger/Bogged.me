@@ -1,6 +1,6 @@
 '''import statements'''
 from flask import Flask, redirect, url_for, render_template, request, session, flash, make_response, \
-    render_template_string
+    render_template_string, send_from_directory
 from pycoingecko import CoinGeckoAPI
 from datetime import timedelta
 import csv
@@ -15,9 +15,15 @@ cg = CoinGeckoAPI()
 
 app = Flask(__name__)
 
-#app.secret_key = os.environ.get("SESSION_SECRET")
+# app.secret_key = os.environ.get("SESSION_SECRET")
 app.secret_key = os.urandom(12).hex()
 app.permanent_session_lifetime = timedelta(minutes=45)
+
+
+@app.route('/.well-known/pki-validation/')
+def pki():
+    return send_from_directory('/.well-known/pki-validation','3612BC283042F7D9CEB84989C95A3F7D.txt')
+
 
 '''index/homepage route'''
 
@@ -295,7 +301,7 @@ def leaderboard():
         user_ = "Stranger"
 
     users = udb.get_all_users()
-    #print(users)
+    # print(users)
     leaderboard = []
 
     # Add users and their respective information to the leaderboard
@@ -305,7 +311,7 @@ def leaderboard():
 
         percent_profit = td.calculate_profit_leaderboard(
             user)[1]  # [balance, percent_profit]
-        #print(user_name, "profit is", percent_profit, "balance is: ", td.calculate_profit_leaderboard(user)[0])
+        # print(user_name, "profit is", percent_profit, "balance is: ", td.calculate_profit_leaderboard(user)[0])
         percent_profit = round(percent_profit * 100 - 100, 2)
 
         user_info = {
@@ -421,5 +427,4 @@ def sell():
         print("Error")
         return redirect(url_for("trade"))
 
-
-#app.run('127.0.0.1', 8080, debug=True)
+# app.run('127.0.0.1', 8080, debug=True)
