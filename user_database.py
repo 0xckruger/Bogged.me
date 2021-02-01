@@ -1,9 +1,8 @@
 import pymongo
 from pymongo import MongoClient
 import os
-import pickledb as pdb
 from datetime import datetime
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 
 #load_dotenv()
 #secret = os.environ.get("DB_PASS")
