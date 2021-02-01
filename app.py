@@ -15,7 +15,8 @@ cg = CoinGeckoAPI()
 
 app = Flask(__name__)
 
-app.secret_key = os.environ.get("SESSION_SECRET")
+#app.secret_key = os.environ.get("SESSION_SECRET")
+app.secret_key = os.urandom(12).hex()
 app.permanent_session_lifetime = timedelta(minutes=45)
 
 '''index/homepage route'''
