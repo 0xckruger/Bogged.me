@@ -6,14 +6,16 @@ from datetime import datetime
 from dotenv import load_dotenv
 
 load_dotenv()
-secret = os.environ.get("DB_PASS")
-username = os.environ.get("USERNAME")
+#secret = os.environ.get("DB_PASS")
+#username = os.environ.get("USERNAME")
+MONGODB_URI = os.environ.get("MONGODB_URI")
 # Remember to copy the connection string from the atlas client :)
 
-cluster = pymongo.MongoClient(
-    f"mongodb+srv://{username}:{secret}@cluster0.kxem4.mongodb.net/bogged?retryWrites=true&w=majority")
+#cluster = pymongo.MongoClient(
+    #f"mongodb+srv://{username}:{secret}@cluster0.kxem4.mongodb.net/bogged?retryWrites=true&w=majority")
+cluster = pymongo.MongoClient(MONGODB_URI)
 # Name of created cluster
-db = cluster["bogged"]
+db = cluster["bogged-prod"]
 # Name of crated collection
 collection = db["bogged-users"]
 
