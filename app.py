@@ -20,9 +20,9 @@ app.secret_key = os.urandom(12).hex()
 app.permanent_session_lifetime = timedelta(minutes=45)
 
 
-@app.route('/.well-known/pki-validation/3612BC283042F7D9CEB84989C95A3F7D.txt')
+@app.route('/.well-known/pki-validation/3F7F01F6277DCEADE61365A43DBA85C0.txt')
 def pki():
-    return send_from_directory('.well-known/pki-validation', '3612BC283042F7D9CEB84989C95A3F7D.txt')
+    return send_from_directory('.well-known/pki-validation', '3F7F01F6277DCEADE61365A43DBA85C0.txt')
 
 
 '''index/homepage route'''
@@ -427,4 +427,4 @@ def sell():
         print("Error")
         return redirect(url_for("trade"))
 
-#app.run('127.0.0.1', 8080, debug=True)
+app.run('127.0.0.1', 8080, debug=True)
