@@ -5,7 +5,7 @@ import pickledb as pdb
 from datetime import datetime
 from dotenv import load_dotenv
 
-load_dotenv()
+#load_dotenv()
 #secret = os.environ.get("DB_PASS")
 #username = os.environ.get("USERNAME")
 MONGODB_URI = os.environ.get("MONGODB_URI")
