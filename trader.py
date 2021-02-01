@@ -86,6 +86,21 @@ def calculate_profit(user):
     return [balance, percent_profit]
 
 
+def calculate_profit_leaderboard(user):
+    balance = udb.get_user_balance(user)
+    currency = udb.get_user_currency(user).lower()
+    starting_balance = udb.get_user_starting_balance(user)
+    wallet = udb.get_user_wallet(user)
+    coin_balance = 0
+    for coin in wallet:
+        temp_coin_balance = wallet[coin]
+        temp_coin_balance *= cg.get_price(ids=coin, vs_currencies=currency).get(coin).get(currency)
+        coin_balance += temp_coin_balance
+    balance += coin_balance
+    percent_profit = balance / starting_balance
+    return [balance, percent_profit]
+
+
 def check_coin(coin_id):
     # if not coin_id[0].isdigit():
     # coin_id = coin_id.lower()

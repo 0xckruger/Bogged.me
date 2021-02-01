@@ -58,8 +58,11 @@
                             </datalist></div>
                                 <div class="form-group"><input class="border rounded-pill form-control" type="number" id="starting-balance" placeholder="Enter your starting balance (suggested: 10,000)" maxlength="10" name="starting_balance" style="font-size: 13px;"></div>
                                 <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="password" id="examplePasswordInput" placeholder="Desired password" name="password" maxlength="32"></div>
-                                    <div class="col-sm-6"><input class="form-control form-control-user" type="password" id="exampleRepeatPasswordInput" placeholder="Repeat desired password" name="password_repeat" maxlength="32"></div>
+
+                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="password" onmousedown="this.type='text'"
+                                                                              onmousehover="this.type='password'"
+                                                                              onmouseout="this.type='password'" id="examplePasswordInput" placeholder="Desired password" name="password" maxlength="32" style="width:532px"></div>
+
                                 </div><button class="btn btn-primary btn-block text-white btn-user" type="submit">Register Account</button>
                                 <hr>
                             </form>

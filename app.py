@@ -34,6 +34,9 @@ def home():
 @app.route('/register', methods=['POST', 'GET'])
 def register():
     # Handles a user signup
+    if "user" in session:
+        flash("You are already logged in", "warning")
+        return redirect("/trade")
     if request.method == 'POST':
         user = User()
         success_flag = user.signup()
@@ -55,6 +58,9 @@ def register():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     # Handles a user login
+    if "user" in session:
+        flash("You are already logged in", "warning")
+        return redirect("/trade")
     if request.method == 'POST':
         session["widget"] = 859
         user = User()
@@ -295,9 +301,10 @@ def leaderboard():
     for user in users:
         user_name = user.get("name")
         date_joined = user.get("date_joined")
-        percent_profit = td.calculate_profit(
+
+        percent_profit = td.calculate_profit_leaderboard(
             user)[1]  # [balance, percent_profit]
-        print(user_name, "profit is", percent_profit)
+        #print(user_name, "profit is", percent_profit, "balance is: ", td.calculate_profit_leaderboard(user)[0])
         percent_profit = round(percent_profit * 100 - 100, 2)
 
         user_info = {
