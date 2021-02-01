@@ -283,19 +283,21 @@ in wallet. O(N) run time, where N is the number of users in the database. '''
 @app.route("/leaderboard")
 def leaderboard():
     if "user" in session:
-        user_ = session["user"]
+        user_ = session["username"]
     else:
         user_ = "Stranger"
 
     users = udb.get_all_users()
+    #print(users)
     leaderboard = []
 
     # Add users and their respective information to the leaderboard
     for user in users:
-        user_name = db.get(user).get("name")
-        date_joined = db.get(user).get("date_joined")
+        user_name = user.get("name")
+        date_joined = user.get("date_joined")
         percent_profit = td.calculate_profit(
             user)[1]  # [balance, percent_profit]
+        print(user_name, "profit is", percent_profit)
         percent_profit = round(percent_profit * 100 - 100, 2)
 
         user_info = {

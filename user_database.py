@@ -18,6 +18,10 @@ db = cluster["bogged"]
 collection = db["bogged-users"]
 
 
+def get_all_users():
+    all_user_keys = collection.find({})
+    return list(all_user_keys)
+
 def add_user(user):
     return collection.insert_one(user)
 
@@ -114,6 +118,4 @@ def get_user_starting_balance(user):
 #         else:
 #             return db.get(name)
 
-# def get_all_users():
-#     all_user_keys = db.getall()
-#     return all_user_keys
+

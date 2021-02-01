@@ -28,8 +28,6 @@ class User:
         starting_balance = int(request.form.get('starting_balance'))
         password = pbkdf2_sha256.encrypt(request.form.get('password'))
         pass_confirm = pbkdf2_sha256.encrypt(request.form.get('password_repeat'))
-        print(password, "and", pass_confirm)
-        print("verify", pbkdf2_sha256.verify(request.form.get('password'), password))
         # Check for duplicate entries
         if db.check_for_user(name):
             return "USER_EXISTS"
@@ -54,7 +52,7 @@ class User:
                 "password": password
             }
             db.add_user(user)
-            print(now.strftime("%m/%d/%Y, %H:%M:%S"))
+            #print(now.strftime("%m/%d/%Y, %H:%M:%S"))
             return "OK"
 
     def login(self):
