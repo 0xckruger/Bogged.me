@@ -17,7 +17,12 @@ cluster = pymongo.MongoClient(MONGODB_URI)
 db = cluster["bogged-prod"]
 # Name of crated collection
 collection = db["bogged-users"]
+coin_list = db["supported_coins"]
 
+
+def find_coin_id(coin_name):
+    coin = coin_list.find_one({"Coin name": coin_name})
+    return coin.get("Coin ID")
 
 def get_all_users():
     all_user_keys = collection.find({})
@@ -32,7 +37,6 @@ def check_for_user(name):
         return True
     else:
         return False
-
 
 def get_user(name):
     return collection.find_one({"name": name})
