@@ -14,8 +14,14 @@ cluster = pymongo.MongoClient(
     f"mongodb+srv://{username}:{secret}@cluster0.kxem4.mongodb.net/bogged?retryWrites=true&w=majority")
 # Name of created cluster
 db = cluster["bogged"]
-# Name of crated collection
+# Name of created collection
 collection = db["bogged-users"]
+coin_list = db["supported_coins"]
+
+
+def find_coin_id(coin_name):
+    coin = coin_list.find_one({"Coin name": coin_name})
+    return coin.get("Coin ID")
 
 
 def get_all_users():

@@ -148,11 +148,12 @@ def display_price():
 
 
 def find_coin_id(coin_name):
-    with open('output.csv') as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=',')
-        for row in csv_reader:
-            if row[0] == coin_name:
-                return row[1]
+    return udb.find_coin_id(coin_name)
+    # with open('output.csv') as csv_file:
+    #     csv_reader = csv.reader(csv_file, delimiter=',')
+    #     for row in csv_reader:
+    #         if row[0] == coin_name:
+    #             return row[1]
 
 
 '''Trade route; main website utility for trading cryptocurrency'''
@@ -422,3 +423,4 @@ def sell():
 
 
 app.run('127.0.0.1', 8080, debug=True)
+
