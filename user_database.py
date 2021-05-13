@@ -14,7 +14,7 @@ MONGODB_URI = os.getenv("MONGODB_URI")
     #f"mongodb+srv://{username}:{secret}@cluster0.kxem4.mongodb.net/bogged?retryWrites=true&w=majority")
 cluster = pymongo.MongoClient(MONGODB_URI)
 # Name of created cluster
-db = cluster["bogged-prod"]
+db = cluster["bogged"]
 # Name of crated collection
 collection = db["bogged-users"]
 coin_list = db["supported_coins"]
