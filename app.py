@@ -428,4 +428,7 @@ def sell():
         print("Error")
         return redirect(url_for("trade"))
 
+
+print("Trying to connect to database...")
+udb.find_coin_id("Dogecoin")
 #app.run('127.0.0.1', 8080, debug=True)
