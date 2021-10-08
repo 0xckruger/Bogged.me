@@ -1,6 +1,8 @@
 # Bogged.me
 Paper trading platform for cryptocurrency. **Needs refactoring, not great right now since it was born from a hackathon**
+
 Compete with users on the leaderboard to show who can pull off the most 200IQ trades.
+
 Don't get BOGGED in the process!
 
 # Introduction
